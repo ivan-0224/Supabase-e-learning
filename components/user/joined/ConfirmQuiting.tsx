@@ -11,18 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 
-export default function ConfirmDelete() {
+export default function ConfirmQuiting() {
   return (
     <Dialog>
-      <DialogTrigger className="w-full bg-red-400 text-white p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-300/90 transition-all">
-        Delete
+      <DialogTrigger className="w-full outline-1 p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-black/5 transition-all">
+        Quit
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure ⁉️ </DialogTitle>
           <DialogDescription>
-            This will permanently delete your this class and remove his data
-            from our servers.
+            This will permanently delete your from this class and remove all
+            your data from our servers.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

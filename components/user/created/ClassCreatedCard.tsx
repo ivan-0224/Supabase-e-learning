@@ -20,8 +20,6 @@ export default function ClassCreatedCard() {
     setShowPassword(!showPassword);
   };
 
-  //GET TEACHER INFORMATION
-
   return (
     <Card className="md:w-[400px] space-y-2">
       <CardHeader>
@@ -67,8 +65,8 @@ export default function ClassCreatedCard() {
           )}
         </Button>
       </CardContent>
-      <CardFooter className="flex gap-2 items-center justify-center">
-        <Button asChild variant={"outline"} className="cursor-pointer">
+      <CardFooter className="flex gap-2 items-center justify-center flex-col">
+        <Button asChild variant={"outline"} className="cursor-pointer w-full">
           <Link href={""}>Enter</Link>
         </Button>
         <ConfirmDelete />
