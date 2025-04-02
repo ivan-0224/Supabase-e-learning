@@ -3,7 +3,7 @@ import ClassCreatedCard from "./ClassCreatedCard";
 
 export default function CreatedClass() {
   return (
-    <div>
+    <div className="p-2">
       <ClassCreatedCard />
     </div>
   );
