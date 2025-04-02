@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
   }
 }
+/*text selection color*/
+::selection {
+  background-color: black;
+  color: white;
+}

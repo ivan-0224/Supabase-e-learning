@@ -35,18 +35,18 @@ export async function updateSession(request: NextRequest) {
 
 
 
-  const publicRoutes = ['/', '/login']; 
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user && !publicRoutes.includes(request.nextUrl.pathname)) {
+  const publicRoutes = ['/', '/login']; 
+  if (!user && !publicRoutes.includes(request.nextUrl.pathname) &&  !request.nextUrl.pathname.startsWith("/")) {
     // User is not logged in and trying to access a protected route, so redirect to /login
     const url = request.nextUrl.clone();
-    url.pathname = '/login';
+    url.pathname = '/';
     return NextResponse.redirect(url);
-  } else if (user && publicRoutes.includes(request.nextUrl.pathname)) {
+  } else if (user?.id && (publicRoutes.includes(request.nextUrl.pathname))) {
     // User is logged in but trying to access a public route (like /login or /),
     // so redirect them to their user dashboard
     const url = request.nextUrl.clone();

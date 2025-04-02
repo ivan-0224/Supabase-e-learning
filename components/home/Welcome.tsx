@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Welcome() {
   return (
-    <section className=" flex flex-col items-center justify-center w-full text-center font-mono">
+    <section className=" flex flex-col items-center justify-center w-full text-center font-mono drop-shadow-sm">
       <h1 className="text-black  text-center  text-3xl ">
         Hello and thank you for joining
         <br />
@@ -19,7 +19,7 @@ export default function Welcome() {
           text={`your new hub for learning, collaboration, and growth! Whether you're a student, teacher, or lifelong learner, we’re here to make education simple, organized, and inspiring.`}
         />
       </div>
-      <Button asChild className="m-5">
+      <Button asChild className="m-5 hover:scale-105">
         <Link href="/login">Get Started</Link>
       </Button>
     </section>
