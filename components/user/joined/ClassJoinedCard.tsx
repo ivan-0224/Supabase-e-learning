@@ -55,6 +55,7 @@ export default function ClassJoinedCard() {
           <span className="text-sm text-black/50">.....................</span>
         )}
         <Button
+          className="cursor-pointer"
           type="button"
           variant="default"
           size="icon"

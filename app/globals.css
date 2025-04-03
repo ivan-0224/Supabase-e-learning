@@ -125,3 +125,7 @@
   background-color: black;
   color: white;
 }
+html, body {
+  overflow: auto;
+  height: auto;
+}

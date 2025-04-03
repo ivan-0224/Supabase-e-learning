@@ -34,7 +34,7 @@ export default async function page({
           Create classes right Here{" "}
           <span className="text-black text-lg">📝</span>
         </p>
-        <CreatedClass />
+        <CreatedClass id={id} />
       </TabsContent>
       {/*JOINED CLASSES */}
       <TabsContent value="joined">

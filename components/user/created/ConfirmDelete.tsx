@@ -14,7 +14,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 export default function ConfirmDelete() {
   return (
     <Dialog>
-      <DialogTrigger className="w-full bg-red-400 text-white p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-300/90 transition-all">
+      <DialogTrigger className="w-full bg-white outline  text-black p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-400/90 hover:outline-none hover:text-white transition-all">
         Delete
       </DialogTrigger>
       <DialogContent>
