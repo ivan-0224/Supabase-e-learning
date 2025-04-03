@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 import { JoinClass } from "@/actions/JoinClass";
 import { toast } from "sonner";
+import { ClipLoader } from "react-spinners";
 
 export default function ClassJoinprompt() {
   const [state, action, pending] = useActionState(JoinClass, undefined);
@@ -55,6 +56,7 @@ export default function ClassJoinprompt() {
               placeholder="code:xxxx-xxxx-xxxx-xxxxxxxxxxxx."
               name="classCode"
               required
+              disabled={pending}
             />
             {state?.invalidCode && (
               <span className="text-sm text-red-400">{state.invalidCode}</span>
@@ -67,7 +69,9 @@ export default function ClassJoinprompt() {
             )}
           </div>
 
-          <Button className=" w-full bg-blue-400 cursor-pointer">Join</Button>
+          <Button className=" w-full bg-blue-400 cursor-pointer">
+            {pending ? <ClipLoader size={17} color="white" /> : "Join"}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
