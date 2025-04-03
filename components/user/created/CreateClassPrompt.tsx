@@ -47,7 +47,7 @@ export default function CreateClassPrompt() {
   return (
     <nav className="w-full flex items-center justify-center">
       <Drawer>
-        <DrawerTrigger className=" flex items-center gap-1 outline outline-blue-400 ring-blue-600 p-2 font-semibold text-sm bg-blue-400 drop-shadow-sm text-white rounded-md w-fit cursor-pointer ">
+        <DrawerTrigger className=" hover:scale-105  transition flex items-center gap-1 outline outline-blue-400 ring-blue-600 p-2 font-semibold text-sm bg-blue-400 drop-shadow-sm text-white rounded-md w-fit cursor-pointer ">
           Add a class <Plus className="size-5" />
         </DrawerTrigger>
         <DrawerContent>

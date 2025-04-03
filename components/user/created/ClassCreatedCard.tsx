@@ -14,16 +14,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ConfirmDelete from "./ConfirmDelete";
 
-interface Class {
-  classname: string;
-  description: string;
-  major: string;
-  classcode: string;
-}
-interface Teacher {
-  teachername: string;
-  teachermail: string;
-}
 export default function ClassCreatedCard({
   Class,
   Teacher,
@@ -40,10 +30,23 @@ export default function ClassCreatedCard({
     <Card className="md:w-[400px] space-y-2">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <span className="text-2xl capitalize">{Class.classname}</span>
-          <Badge variant="secondary" className="bg-blue-300 text-white">
-            {Class.major}
-          </Badge>
+          <div className="flex gap-1  flex-col">
+            <span className="text-2xl capitalize">{Class.class_name}</span>
+            <span className="text-sm text-gray-400">
+              Description:
+              {Class.description
+                ? Class.description
+                : "There is no description"}
+            </span>
+          </div>
+          <div>
+            <Badge
+              variant="secondary"
+              className="bg-blue-300 text-white uppercase"
+            >
+              {Class.major}
+            </Badge>
+          </div>
         </CardTitle>
         <CardDescription className="space-y-2">
           <div className="text-md flex items-center underline">
@@ -68,7 +71,7 @@ export default function ClassCreatedCard({
         </span>
         {showPassword ? (
           <span className="text-sm text-black/50 select-all text-nowrap overflow-hidden">
-            {Class.classcode}
+            {Class.class_id}
           </span>
         ) : (
           <span className="text-sm text-black/50">.....................</span>
@@ -91,7 +94,7 @@ export default function ClassCreatedCard({
         <Button asChild variant={"default"} className="cursor-pointer w-full">
           <Link href={""}>Enter</Link>
         </Button>
-        <ConfirmDelete classId={Class.classcode} />
+        <ConfirmDelete classId={Class.class_id} />
       </CardFooter>
     </Card>
   );

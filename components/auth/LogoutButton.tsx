@@ -3,6 +3,7 @@ import React, { useActionState } from "react";
 import { Button } from "../ui/button";
 import { logout } from "@/actions/Logout";
 import { toast } from "sonner";
+import { ClipLoader } from "react-spinners";
 
 export default function LogoutButton({ className }: { className?: string }) {
   const [state, action, pending] = useActionState(logout, undefined);
@@ -15,7 +16,17 @@ export default function LogoutButton({ className }: { className?: string }) {
         disabled={pending}
         className={`cursor-pointer block w-full hover:scale-105 ${className}`}
       >
-        Logout
+        {pending ? (
+          <ClipLoader
+            color="#ffffff"
+            cssOverride={{}}
+            loading
+            size={20}
+            speedMultiplier={1}
+          />
+        ) : (
+          <span>Log-out</span>
+        )}
       </Button>
     </form>
   );

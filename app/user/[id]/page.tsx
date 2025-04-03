@@ -1,10 +1,8 @@
+import React from "react";
+
 import { GetUser } from "@/utils/getuser";
 import { redirect } from "next/navigation";
-import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import JoinedClass from "@/components/user/joined/JoinedClass";
-import CreateClassPrompt from "@/components/user/created/CreateClassPrompt";
-import ClassCreatedContainer from "@/components/user/created/ClassCreatedContainer";
+import HomePage from "@/components/user/HomePage";
 
 export default async function page({
   params,
@@ -18,33 +16,5 @@ export default async function page({
   if (user?.id != id) {
     redirect(`/user/${user?.id}`);
   }
-
-  return (
-    <Tabs defaultValue="created" className="w-full p-1">
-      <TabsList className="flex w-full ">
-        <TabsTrigger value="created" className="cursor-pointer">
-          Created
-        </TabsTrigger>
-        <TabsTrigger value="joined" className="cursor-pointer">
-          Joined
-        </TabsTrigger>
-      </TabsList>
-      {/*CREATED CLASSES */}
-      <TabsContent value="created" className="flex flex-col gap-2.5">
-        <p className="text-center text-sm text-black/50 drop-shadow-sm">
-          Create classes right Here{" "}
-          <span className="text-black text-lg">📝</span>
-        </p>
-        <CreateClassPrompt />
-        <ClassCreatedContainer />
-      </TabsContent>
-      {/*JOINED CLASSES */}
-      <TabsContent value="joined">
-        <p className="text-center text-sm text-black/50 drop-shadow-sm">
-          Join classes right Here <span className="text-black text-lg">🎯</span>
-        </p>
-        <JoinedClass />
-      </TabsContent>
-    </Tabs>
-  );
+  return <HomePage user={user} />;
 }
