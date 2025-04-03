@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useActionState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,8 +12,27 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
+import { JoinClass } from "@/actions/JoinClass";
+import { toast } from "sonner";
 
 export default function ClassJoinprompt() {
+  const [state, action, pending] = useActionState(JoinClass, undefined);
+
+  useEffect(() => {
+    if (state?.JoinError) {
+      toast.warning(state.JoinError, {
+        position: "top-center",
+        style: { backgroundColor: "#ead009", color: "white" },
+      });
+    } else if (state?.succes) {
+      toast.success(state.succes, {
+        position: "top-center",
+        style: { backgroundColor: "#4CAF50", color: "white" },
+      });
+      //REDIRECT THE USER TO HIS CLASS
+    }
+  }, [state]);
+
   return (
     <Dialog>
       <div className="w-full flex items-center justify-center">
@@ -28,9 +48,25 @@ export default function ClassJoinprompt() {
             Just enter the code that you got from you teacher
           </DialogDescription>
         </DialogHeader>
-        <form action="" className="space-y-3">
+        <form action={action} className="space-y-3">
           <Label>Class-Code 🔐 :</Label>
-          <Input placeholder="code:xxxx-xxxx-xxxx-xxxxxxxxxxxx." />
+          <div>
+            <Input
+              placeholder="code:xxxx-xxxx-xxxx-xxxxxxxxxxxx."
+              name="classCode"
+              required
+            />
+            {state?.invalidCode && (
+              <span className="text-sm text-red-400">{state.invalidCode}</span>
+            )}
+
+            {state?.ClassNotFound && (
+              <span className="text-sm text-red-400">
+                {state.ClassNotFound}
+              </span>
+            )}
+          </div>
+
           <Button className=" w-full bg-blue-400 cursor-pointer">Join</Button>
         </form>
       </DialogContent>

@@ -11,8 +11,19 @@ export const getCreatedClass = async (user:User)=>{
     }
 }
 
-export const getJoinedClass = async ()=>{
-    const supabase = await createClient()
-
+export const getJoinedClass = async (user:User)=>{
+    const supabase = await createClient();
     return 0;
+}
+
+
+export const getClassById = async(classId:string)=>{
+    const supabase = await createClient()
+    const {data} = await supabase.from("class").select("*").eq("class_id",classId).single()
+
+    if(data){
+        return true
+    }else{
+        return false
+    }
 }
