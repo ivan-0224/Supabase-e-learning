@@ -1,20 +1,26 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ClassCreatedCard from "./ClassCreatedCard";
 import { getCreatedClass } from "@/utils/getclass";
-import { createClient } from "@/utils/supabase/client";
-import { ClassCreatedScketon } from "./ClassCreatedScketon";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function ClassCreatedContainer({
-  userId,
-}: {
-  userId: string | undefined;
-}) {
+import { ClassCreatedScketon } from "./ClassCreatedScketon";
+import { GetUser } from "@/utils/getuser";
+import { User } from "@supabase/supabase-js";
+
+const ClassCreatedCard = React.lazy(() => import("./ClassCreatedCard"));
+
+export default function ClassCreatedContainer() {
   const [classes, setClasses] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [teacher, setTeacher] = useState<User>();
 
   useEffect(() => {
+    //get teacher
+    const GetTeacher = async () => {
+      const teacher = await GetUser();
+      if (teacher) {
+        setTeacher(teacher);
+      }
+    };
+    GetTeacher();
     //Get classes
     const GetClasses = async () => {
       const Classes = await getCreatedClass();
@@ -23,45 +29,15 @@ export default function ClassCreatedContainer({
       }
     };
     GetClasses();
-    setLoading(false);
-    // Subscribe to real-time updates for this specific user
-    const supabase = createClient();
-    const channel = supabase
-      .channel("realtime_user")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "class",
-          filter: `teacher_id=eq.${userId}`,
-        },
-        (payload) => {
-          console.log("Data changed:", payload);
-          setClasses((classes) => [...classes, payload.new as Array<any>]);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel); // Clean up on unmount
-    };
   }, []);
-  if (loading) {
-    return (
-      <section className="flex gap-15 md:flex-row lg:items-stretch lg:justify-normal md:items-center md:justify-center md:flex-wrap flex-col">
-        <ClassCreatedScketon />
-        <ClassCreatedScketon />
-        <ClassCreatedScketon />
-        <ClassCreatedScketon />
-      </section>
-    );
-  }
-  console.log(classes);
+
   return (
-    <section className="flex h-svh gap-15 md:flex-row lg:items-stretch lg:justify-normal md:items-center md:justify-center md:flex-wrap flex-col">
-      {classes &&
-        classes.map((Class) => (
+    <section className="p-2 flex  gap-15 md:flex-row lg:items-stretch lg:justify-normal md:items-center md:justify-center md:flex-wrap flex-col">
+      {classes.map((Class) => (
+        <React.Suspense
+          key={Class.class_id}
+          fallback={<ClassCreatedScketon key={Class.class_id} />}
+        >
           <div key={Class.class_id}>
             <ClassCreatedCard
               Class={{
@@ -70,9 +46,14 @@ export default function ClassCreatedContainer({
                 major: Class.major,
                 classcode: Class.class_id,
               }}
+              Teacher={{
+                teachername: teacher?.user_metadata.full_name as string,
+                teachermail: teacher?.email as string,
+              }}
             />
           </div>
-        ))}
+        </React.Suspense>
+      ))}
     </section>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -13,9 +13,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ConfirmDelete from "./ConfirmDelete";
-import { GetUser } from "@/utils/getuser";
-import { User } from "@supabase/supabase-js";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface Class {
   classname: string;
@@ -23,23 +20,22 @@ interface Class {
   major: string;
   classcode: string;
 }
-
-export default function ClassCreatedCard({ Class }: { Class: Class }) {
+interface Teacher {
+  teachername: string;
+  teachermail: string;
+}
+export default function ClassCreatedCard({
+  Class,
+  Teacher,
+}: {
+  Class: Class;
+  Teacher: Teacher;
+}) {
   const [showPassword, setShowPassword] = useState(false);
-  const [teacher, setTeacher] = useState<User>();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  //Get the teacher informations
-  useEffect(() => {
-    const GetTeacher = async () => {
-      const teacher = await GetUser();
-      if (teacher) {
-        setTeacher(teacher);
-      }
-    };
-    GetTeacher();
-  }, []);
+
   return (
     <Card className="md:w-[400px] space-y-2">
       <CardHeader>
@@ -53,18 +49,14 @@ export default function ClassCreatedCard({ Class }: { Class: Class }) {
           <div className="text-md flex items-center underline">
             👨‍🏫 Teacher :{" "}
             <div className=" text-sm select-all text-black/50 capitalize">
-              {teacher?.user_metadata.full_name ? (
-                teacher?.user_metadata?.full_name
-              ) : (
-                <Skeleton className="w-7 inline h-3.5" />
-              )}
+              {Teacher.teachername}
             </div>
           </div>
 
           <p className="text-md underline">
             📨 Mail :{" "}
             <span className=" text-sm select-all text-black/50 ">
-              {teacher?.email}
+              {Teacher.teachermail}
             </span>
           </p>
         </CardDescription>
@@ -99,7 +91,7 @@ export default function ClassCreatedCard({ Class }: { Class: Class }) {
         <Button asChild variant={"default"} className="cursor-pointer w-full">
           <Link href={""}>Enter</Link>
         </Button>
-        <ConfirmDelete />
+        <ConfirmDelete classId={Class.classcode} />
       </CardFooter>
     </Card>
   );

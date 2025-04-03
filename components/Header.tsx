@@ -11,7 +11,7 @@ export default async function Header() {
   const userName = user?.user_metadata.full_name;
 
   return (
-    <div className="flex items-center justify-between p-5 shadow backdrop-blur-md  subpixel-antialiased drop-shadow-sm sticky top-0">
+    <div className=" z-50 flex w-full items-center justify-between p-5 shadow backdrop-blur-md  subpixel-antialiased drop-shadow-sm sticky top-0">
       <h1 className="font-semibold">
         <span className="md:text-3xl text-xl text-blue-400">Fsegt</span>{" "}
         <span className="md:text-2xl ">Classroom</span>

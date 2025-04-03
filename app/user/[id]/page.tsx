@@ -2,8 +2,9 @@ import { GetUser } from "@/utils/getuser";
 import { redirect } from "next/navigation";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CreatedClass from "@/components/user/created/CreatedClass";
 import JoinedClass from "@/components/user/joined/JoinedClass";
+import CreateClassPrompt from "@/components/user/created/CreateClassPrompt";
+import ClassCreatedContainer from "@/components/user/created/ClassCreatedContainer";
 
 export default async function page({
   params,
@@ -29,12 +30,13 @@ export default async function page({
         </TabsTrigger>
       </TabsList>
       {/*CREATED CLASSES */}
-      <TabsContent value="created">
+      <TabsContent value="created" className="flex flex-col gap-2.5">
         <p className="text-center text-sm text-black/50 drop-shadow-sm">
           Create classes right Here{" "}
           <span className="text-black text-lg">📝</span>
         </p>
-        <CreatedClass id={id} />
+        <CreateClassPrompt />
+        <ClassCreatedContainer />
       </TabsContent>
       {/*JOINED CLASSES */}
       <TabsContent value="joined">
