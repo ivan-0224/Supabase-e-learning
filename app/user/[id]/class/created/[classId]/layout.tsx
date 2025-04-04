@@ -16,6 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function Layout({
   children,
@@ -39,10 +40,10 @@ export default async function Layout({
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="h-fit">
       <SidebarLeft />
-      <SidebarInset>
-        <div className="sticky top-0 flex h-14 shrink-0 items-center gap-2 bg-background">
+      <SidebarInset className="sticky top-[73px]">
+        <div className="sticky top-[73px] flex h-14 shrink-0 items-center gap-2 bg-background">
           <div className="flex flex-1 items-center gap-2 px-3">
             <SidebarTrigger />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -57,9 +58,11 @@ export default async function Layout({
             </Breadcrumb>
           </div>
         </div>
-        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+        <ScrollArea className="flex flex-1 flex-col gap-4 p-4 h-svh">
+          {children}
+        </ScrollArea>
       </SidebarInset>
-      <SidebarRight />
+      <SidebarRight className="sticky top-[75px]" />
     </SidebarProvider>
   );
 }
