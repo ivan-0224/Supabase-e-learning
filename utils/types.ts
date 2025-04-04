@@ -3,8 +3,9 @@ interface Class {
     description: string;
     major: string;
     class_id: string;
+    teacher_id?:string;
   }
   interface Teacher {
-    teachername: string;
-    teachermail: string;
+    teacher_name: string;
+    teacher_mail: string;
   }

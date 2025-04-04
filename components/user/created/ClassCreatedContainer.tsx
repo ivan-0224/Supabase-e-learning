@@ -1,5 +1,5 @@
 import React from "react";
-import { ClassCreatedScketon } from "./ClassCreatedScketon";
+import { ClassLoading } from "../../skeletons/ClassLoading";
 import { User } from "@supabase/supabase-js";
 
 const ClassCreatedCard = React.lazy(() => import("./ClassCreatedCard"));
@@ -16,7 +16,7 @@ function ClassCreatedContainer({
       {classes.map((Class) => (
         <React.Suspense
           key={Class.class_id}
-          fallback={<ClassCreatedScketon key={Class.class_id} />}
+          fallback={<ClassLoading key={Class.class_id} />}
         >
           <div key={Class.class_id}>
             <ClassCreatedCard

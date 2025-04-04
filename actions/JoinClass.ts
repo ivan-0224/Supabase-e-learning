@@ -1,7 +1,7 @@
 
 "use server"
 
-import { getClassById } from "@/utils/getclass";
+import { FindClassById, getClassById } from "@/utils/getclass";
 import { GetUser } from "@/utils/getuser";
 import { AddStudent } from "@/utils/student";
 import { createClient } from "@/utils/supabase/server"
@@ -24,16 +24,23 @@ export const JoinClass = async(state:any, formData:FormData)=>{
         return {invalidCode:"* Invalid Code"};
     }else{
         //NOW we can search if class exist or not 
-        const SearchClassBycode = await getClassById(class_id);
+        const SearchClassBycode = await FindClassById(class_id);
         
         if(!SearchClassBycode){
             return {ClassNotFound: "* Their is no class with this code" };
 
         }else{
-            //Add the user as a student
             const user = await GetUser();
-            await AddStudent(user);
+            //Now we check if user is a teacher or not
+            //He cant join if he is a teacher
+            const {teacher_id} = await getClassById(class_id)
 
+            if(teacher_id == user?.id){
+                return {TeacherWarent : "You are already a teacher on this class"}
+            }
+
+            //Add the user as a student
+            await AddStudent(user);
             //Now join the user to the selected class
             //Add the user to studentClass table
             const {error} = await supabase.from("studentClass").insert([

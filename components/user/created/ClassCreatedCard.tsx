@@ -66,8 +66,7 @@ export default function ClassCreatedCard({
       </CardHeader>
       <CardContent className="flex items-center gap-2">
         <span className="text-lg font-semibold select-none text-nowrap">
-          {" "}
-          Code :{" "}
+          Code :
         </span>
         {showPassword ? (
           <span className="text-sm text-black/50 select-all text-nowrap overflow-hidden">

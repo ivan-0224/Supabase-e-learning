@@ -31,6 +31,11 @@ export default function ClassJoinprompt() {
         style: { backgroundColor: "#4CAF50", color: "white" },
       });
       //REDIRECT THE USER TO HIS CLASS
+    } else if (state?.TeacherWarent) {
+      toast.warning(state.TeacherWarent, {
+        position: "top-center",
+        style: { backgroundColor: "#ead009", color: "white" },
+      });
     }
   }, [state]);
 

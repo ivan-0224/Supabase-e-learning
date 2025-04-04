@@ -1,7 +1,7 @@
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ClassCreatedScketon() {
+export function ClassLoading() {
   return (
     <div className=" mx-1.5 flex items-center md:w-[400px] h-[310px] flex-col space-y-14">
       <div className="w-full space-y-2">

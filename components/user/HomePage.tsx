@@ -5,12 +5,13 @@ import CreateClassPrompt from "@/components/user/created/CreateClassPrompt";
 import ClassCreatedContainer from "@/components/user/created/ClassCreatedContainer";
 import ClassJoinprompt from "@/components/user/joined/ClassJoinprompt";
 import { User } from "@supabase/supabase-js";
-import { getCreatedClass } from "@/utils/getclass";
+import { getCreatedClass, getJoinedClass } from "@/utils/getclass";
 
 export default async function HomePage({ user }: { user: User }) {
   //GET created classes
   const Created_Classes = await getCreatedClass(user);
   //Get classes that user had joined
+  const Joined_Classes = await getJoinedClass(user);
 
   return (
     <Tabs defaultValue="created" className="w-full p-1">
@@ -40,7 +41,7 @@ export default async function HomePage({ user }: { user: User }) {
           Join classes right Here <span className="text-black text-lg">🎯</span>
         </p>
         <ClassJoinprompt />
-        <JoinedClassContainer />
+        <JoinedClassContainer classes={Joined_Classes as Class[]} />
       </TabsContent>
     </Tabs>
   );
