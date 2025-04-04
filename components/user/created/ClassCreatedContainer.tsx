@@ -26,10 +26,11 @@ function ClassCreatedContainer({
                 description: Class.description,
                 major: Class.major,
                 class_id: Class.class_id,
+                teacher_id: user.id,
               }}
               Teacher={{
-                teachername: user?.user_metadata.full_name as string,
-                teachermail: user?.email as string,
+                teacher_name: user?.user_metadata.full_name as string,
+                teacher_mail: user?.email as string,
               }}
             />
           </div>

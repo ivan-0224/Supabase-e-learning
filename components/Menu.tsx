@@ -13,6 +13,7 @@ import LogoutButton from "./auth/LogoutButton";
 import { Mails, MenuIcon } from "lucide-react";
 import { AvatarIcon } from "./AvatarIcon";
 import { GetUser } from "@/utils/getuser";
+import { ModeTogle } from "./ModeTogle";
 
 export default async function Menu({
   userName,
@@ -31,9 +32,15 @@ export default async function Menu({
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle className="flex gap-1.5 items-end my-1.5 drop-shadow-lg">
-              <AvatarIcon img={userImg} />
-              <span className="p-1 text-sm capitalize">{userName}</span>
+            <DrawerTitle className="flex justify-between items-center my-1.5 drop-shadow-lg">
+              <div className="flex gap-1.5 items-end my-1.5 drop-shadow-lg">
+                <AvatarIcon img={userImg} />
+                <span className="p-1 text-sm capitalize">{userName}</span>
+              </div>
+              <span className="float-right">
+                {" "}
+                <ModeTogle />
+              </span>
             </DrawerTitle>
             <DrawerDescription className="flex items-center gap-1 drop-shadow-lg">
               <Mails />

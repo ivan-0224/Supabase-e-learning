@@ -40,7 +40,7 @@ export default function ConfirmDelete({ classId }: { classId: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger className="w-full bg-white outline  text-black p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-400/90 hover:outline-none hover:text-white transition-all">
+      <DialogTrigger className="w-full bg-white outline  text-black p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-400/90 dark:text-white dark:bg-red-400 hover:outline-none hover:text-white transition-all">
         Delete
       </DialogTrigger>
       <DialogContent>
@@ -60,7 +60,7 @@ export default function ConfirmDelete({ classId }: { classId: string }) {
           <form action={formAction}>
             <Button
               type="submit"
-              className=" cursor-pointer w-full"
+              className=" cursor-pointer w-full dark:bg-red-400 dark:text-white"
               disabled={pending}
             >
               {pending ? (

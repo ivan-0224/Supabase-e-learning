@@ -51,15 +51,15 @@ export default function ClassCreatedCard({
         <CardDescription className="space-y-2">
           <div className="text-md flex items-center underline">
             👨‍🏫 Teacher :{" "}
-            <div className=" text-sm select-all text-black/50 capitalize">
-              {Teacher.teachername}
+            <div className=" text-sm select-all text-black/50 dark:text-white capitalize">
+              {Teacher.teacher_name}
             </div>
           </div>
 
           <p className="text-md underline">
             📨 Mail :{" "}
-            <span className=" text-sm select-all text-black/50 ">
-              {Teacher.teachermail}
+            <span className=" text-sm select-all text-black/50 dark:text-white ">
+              {Teacher.teacher_mail}
             </span>
           </p>
         </CardDescription>
@@ -69,11 +69,13 @@ export default function ClassCreatedCard({
           Code :
         </span>
         {showPassword ? (
-          <span className="text-sm text-black/50 select-all text-nowrap overflow-hidden">
+          <span className="text-sm text-black/50 dark:text-white select-all text-nowrap overflow-hidden">
             {Class.class_id}
           </span>
         ) : (
-          <span className="text-sm text-black/50">.....................</span>
+          <span className="text-sm text-black/50 dark:text-white">
+            .....................
+          </span>
         )}
         <Button
           type="button"
@@ -91,7 +93,9 @@ export default function ClassCreatedCard({
       </CardContent>
       <CardFooter className="flex gap-2 items-center justify-center flex-col">
         <Button asChild variant={"default"} className="cursor-pointer w-full">
-          <Link href={""}>Enter</Link>
+          <Link href={`${Class.teacher_id}/class/created/${Class.class_id}`}>
+            Enter
+          </Link>
         </Button>
         <ConfirmDelete classId={Class.class_id} />
       </CardFooter>

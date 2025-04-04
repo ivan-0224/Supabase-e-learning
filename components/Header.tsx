@@ -3,6 +3,7 @@ import LogoutButton from "./auth/LogoutButton";
 import { AvatarIcon } from "./AvatarIcon";
 import { GetUser } from "@/utils/getuser";
 import Menu from "./Menu";
+import { ModeTogle } from "./ModeTogle";
 
 export default async function Header() {
   //Get user
@@ -22,6 +23,9 @@ export default async function Header() {
         </span>
         <AvatarIcon img={userImg} />
         <LogoutButton className="md:inline-block hidden" />
+        <div className="md:inline-block hidden">
+          <ModeTogle />
+        </div>
         {/*Show This Menu in the small devices */}
         <Menu userName={userName} userImg={userImg} />
       </div>

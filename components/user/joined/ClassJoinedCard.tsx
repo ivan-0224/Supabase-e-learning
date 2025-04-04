@@ -15,10 +15,14 @@ import Link from "next/link";
 import ConfirmQuiting from "./ConfirmQuiting";
 import { getTeacherById } from "@/utils/teacher";
 import { Skeleton } from "@/components/ui/skeleton";
+import { User } from "@supabase/supabase-js";
+import { GetUser } from "@/utils/getuser";
 
 export default function ClassJoinedCard({ Class }: { Class: Class }) {
   const [Teacher, setTeacher] = useState<Teacher>();
   const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState<User>();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -31,6 +35,13 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
         setTeacher(teacher);
       }
     };
+    const getUser = async () => {
+      const User = await GetUser();
+      if (User) {
+        setUser(User);
+      }
+    };
+    getUser();
     getTeacher();
   }, []);
 
@@ -62,7 +73,7 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
             {!Teacher?.teacher_name ? (
               <Skeleton className="w-[60%] h-3 " />
             ) : (
-              <div className=" text-sm select-all text-black/50 ">
+              <div className=" text-sm select-all text-black/50 dark:text-white ">
                 {Teacher?.teacher_mail}
               </div>
             )}
@@ -74,7 +85,7 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
             {!Teacher?.teacher_mail ? (
               <Skeleton className="w-[60%] h-3 " />
             ) : (
-              <div className=" text-sm select-all text-black/50 ">
+              <div className=" text-sm select-all text-black/50 dark:text-white ">
                 {Teacher?.teacher_mail}
               </div>
             )}
@@ -87,11 +98,13 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
           Code :{" "}
         </span>
         {showPassword ? (
-          <span className="text-sm text-black/50 select-all overflow-hidden text-nowrap">
+          <span className="text-sm text-black/50 dark:text-white select-all overflow-hidden text-nowrap">
             {Class.class_id}
           </span>
         ) : (
-          <span className="text-sm text-black/50">.....................</span>
+          <span className="text-sm text-black/50 dark:text-white">
+            .....................
+          </span>
         )}
         <Button
           className="cursor-pointer"
@@ -109,7 +122,7 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
       </CardContent>
       <CardFooter className="flex flex-col gap-2 items-center justify-center">
         <Button asChild variant={"default"} className="cursor-pointer w-full">
-          <Link href={""}>Enter</Link>
+          <Link href={`${user?.id}/class/joined/${Class.class_id}`}>Enter</Link>
         </Button>
         <ConfirmQuiting classId={Class.class_id} />
       </CardFooter>

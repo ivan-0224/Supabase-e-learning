@@ -117,11 +117,15 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground dark:selection:bg-white dark:selection:text-black selection:bg-black selection:text-white;
   }
 }
-/*text selection color*/
-::selection {
-  background-color: black;
-  color: white;
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

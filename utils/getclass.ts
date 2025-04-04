@@ -35,7 +35,7 @@ export const getClassById = async(classId:string)=>{
     const supabase = await createClient()
     const {data} = await supabase.from("class").select("*").eq("class_id",classId).single()
     if(data){
-        return data
+        return data as Class
     }else{
         return data
     }

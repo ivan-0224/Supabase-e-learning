@@ -25,7 +25,7 @@ export default async function HomePage({ user }: { user: User }) {
       </TabsList>
       {/*CREATED CLASSES */}
       <TabsContent value="created" className="flex flex-col gap-2.5">
-        <p className="text-center text-sm text-black/50 drop-shadow-sm">
+        <p className="text-center text-sm text-black/50 dark:text-white drop-shadow-sm">
           Create classes right Here{" "}
           <span className="text-black text-lg">📝</span>
         </p>
@@ -37,7 +37,7 @@ export default async function HomePage({ user }: { user: User }) {
       </TabsContent>
       {/*JOINED CLASSES */}
       <TabsContent value="joined" className="flex flex-col gap-2.5">
-        <p className="text-center text-sm text-black/50 drop-shadow-sm">
+        <p className="text-center text-sm text-black/50 dark:text-white drop-shadow-sm">
           Join classes right Here <span className="text-black text-lg">🎯</span>
         </p>
         <ClassJoinprompt />
