@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useActionState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +11,30 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { Quitclass } from "@/actions/QuitClass";
+import { toast } from "sonner";
 
-export default function ConfirmQuiting() {
+export default function ConfirmQuiting({ classId }: { classId: string }) {
+  const [state, action, pending] = useActionState(
+    (state: any, formData: FormData) => Quitclass(state, formData, classId),
+    undefined
+  );
+
+  useEffect(() => {
+    if (state?.error) {
+      toast.warning(state.error, {
+        position: "top-center",
+        style: { backgroundColor: "#ead009", color: "white" },
+      });
+    } else if (state?.succes) {
+      toast.success(state.succes, {
+        position: "top-center",
+        style: { backgroundColor: "#4CAF50", color: "white" },
+      });
+      window.location.reload();
+    }
+  }, [state]);
+
   return (
     <Dialog>
       <DialogTrigger className="w-full outline-1 p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-black/5 transition-all">
@@ -31,9 +54,11 @@ export default function ConfirmQuiting() {
               Close
             </Button>
           </DialogClose>
-          <Button type="submit" className=" cursor-pointer">
-            Confirm
-          </Button>
+          <form action={action}>
+            <Button type="submit" className=" cursor-pointer">
+              Confirm
+            </Button>
+          </form>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -111,7 +111,7 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
         <Button asChild variant={"default"} className="cursor-pointer w-full">
           <Link href={""}>Enter</Link>
         </Button>
-        <ConfirmQuiting />
+        <ConfirmQuiting classId={Class.class_id} />
       </CardFooter>
     </Card>
   );
