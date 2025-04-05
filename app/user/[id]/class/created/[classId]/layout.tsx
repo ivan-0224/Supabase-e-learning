@@ -41,7 +41,7 @@ export default async function Layout({
 
   return (
     <SidebarProvider className="h-fit">
-      <SidebarLeft />
+      <SidebarLeft className="sticky top-[75px]" />
       <SidebarInset className="sticky top-[73px]">
         <div className="sticky top-[73px] flex h-14 shrink-0 items-center gap-2 bg-background">
           <div className="flex flex-1 items-center gap-2 px-3">

@@ -17,11 +17,12 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import TextHover from "./animations/TextHover";
 
 export function NavGroups({
-  workspaces,
+  groups,
 }: {
-  workspaces: {
+  groups: {
     name: string;
     emoji: React.ReactNode;
     pages: {
@@ -32,18 +33,20 @@ export function NavGroups({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Workspaces</SidebarGroupLabel>
+      <SidebarGroupLabel>Groups</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {workspaces.map((workspace) => (
-            <Collapsible key={workspace.name}>
+          {groups.map((group) => (
+            <Collapsible key={group.name}>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="#">
-                    <span>{workspace.emoji}</span>
-                    <span>{workspace.name}</span>
-                  </a>
-                </SidebarMenuButton>
+                <TextHover text={group.name} key={group.name}>
+                  <SidebarMenuButton asChild>
+                    <a href="#">
+                      <span>{group.emoji}</span>
+                      <span>{group.name}</span>
+                    </a>
+                  </SidebarMenuButton>{" "}
+                </TextHover>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuAction
                     className="bg-sidebar-accent text-sidebar-accent-foreground left-2 data-[state=open]:rotate-90"
@@ -52,12 +55,10 @@ export function NavGroups({
                     <ChevronRight />
                   </SidebarMenuAction>
                 </CollapsibleTrigger>
-                <SidebarMenuAction showOnHover>
-                  <Plus />
-                </SidebarMenuAction>
+
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {workspace.pages.map((page) => (
+                    {group.pages.map((page) => (
                       <SidebarMenuSubItem key={page.name}>
                         <SidebarMenuSubButton asChild>
                           <a href="#">
@@ -72,12 +73,6 @@ export function NavGroups({
               </SidebarMenuItem>
             </Collapsible>
           ))}
-          <SidebarMenuItem>
-            <SidebarMenuButton className="text-sidebar-foreground/70">
-              <MoreHorizontal />
-              <span>More</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

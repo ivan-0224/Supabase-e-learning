@@ -13,6 +13,7 @@ import {
   Settings2,
   Sparkles,
   Trash2,
+  Video,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -30,11 +31,6 @@ import {
 const data = {
   navMain: [
     {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-    {
       title: "Ask AI",
       url: "#",
       icon: Sparkles,
@@ -46,116 +42,116 @@ const data = {
       isActive: true,
     },
     {
-      title: "Inbox",
+      title: "Meet",
       url: "#",
-      icon: Inbox,
+      icon: Video,
       badge: "10",
     },
   ],
 
-  workspaces: [
+  groups: [
     {
-      name: "Personal Life Management",
-      emoji: "🏠",
+      name: "Group A01",
+      emoji: "🏫",
       pages: [
         {
-          name: "Daily Journal & Reflection",
+          name: "Td Submissions",
           url: "#",
           emoji: "📔",
         },
         {
-          name: "Health & Wellness Tracker",
+          name: "Td submissions by grp",
           url: "#",
-          emoji: "🍏",
+          emoji: "🤝",
         },
         {
-          name: "Personal Growth & Learning Goals",
+          name: "Notes",
           url: "#",
           emoji: "🌟",
         },
       ],
     },
     {
-      name: "Professional Development",
-      emoji: "💼",
+      name: "Group A02",
+      emoji: "🏫",
       pages: [
         {
-          name: "Career Objectives & Milestones",
+          name: "Td Submissions",
           url: "#",
-          emoji: "🎯",
+          emoji: "📔",
         },
         {
-          name: "Skill Acquisition & Training Log",
-          url: "#",
-          emoji: "🧠",
-        },
-        {
-          name: "Networking Contacts & Events",
+          name: "Td submissions by grp",
           url: "#",
           emoji: "🤝",
         },
-      ],
-    },
-    {
-      name: "Creative Projects",
-      emoji: "🎨",
-      pages: [
         {
-          name: "Writing Ideas & Story Outlines",
+          name: "Notes",
           url: "#",
-          emoji: "✍️",
-        },
-        {
-          name: "Art & Design Portfolio",
-          url: "#",
-          emoji: "🖼️",
-        },
-        {
-          name: "Music Composition & Practice Log",
-          url: "#",
-          emoji: "🎵",
+          emoji: "🌟",
         },
       ],
     },
     {
-      name: "Home Management",
-      emoji: "🏡",
+      name: "Group A03",
+      emoji: "🏫",
       pages: [
         {
-          name: "Household Budget & Expense Tracking",
+          name: "Td Submissions",
           url: "#",
-          emoji: "💰",
+          emoji: "📔",
         },
         {
-          name: "Home Maintenance Schedule & Tasks",
+          name: "Td submissions by grp",
           url: "#",
-          emoji: "🔧",
+          emoji: "🤝",
         },
         {
-          name: "Family Calendar & Event Planning",
+          name: "Notes",
           url: "#",
-          emoji: "📅",
+          emoji: "🌟",
         },
       ],
     },
     {
-      name: "Travel & Adventure",
-      emoji: "🧳",
+      name: "Group A04",
+      emoji: "🏫",
       pages: [
         {
-          name: "Trip Planning & Itineraries",
+          name: "Td Submissions",
           url: "#",
-          emoji: "🗺️",
+          emoji: "📔",
         },
         {
-          name: "Travel Bucket List & Inspiration",
+          name: "Td submissions by grp",
           url: "#",
-          emoji: "🌎",
+          emoji: "🤝",
         },
         {
-          name: "Travel Journal & Photo Gallery",
+          name: "Notes",
           url: "#",
-          emoji: "📸",
+          emoji: "🌟",
+        },
+      ],
+    },
+    {
+      name: "Group A05",
+      emoji: "🏫",
+      pages: [
+        {
+          name: "Td Submissions",
+          url: "#",
+          emoji: "📔",
+        },
+        {
+          name: "Td submissions by grp",
+          url: "#",
+          emoji: "🤝",
+        },
+        {
+          name: "Notes",
+          url: "#",
+          emoji: "🌟",
         },
       ],
     },
@@ -171,8 +167,9 @@ export function SidebarLeft({
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavGroups workspaces={data.workspaces} />
+        <NavGroups groups={data.groups} />
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
   );
 }
