@@ -19,7 +19,7 @@ export default function Welcome({
         <FloatingPaths position={-1} />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 text-center ">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -29,7 +29,7 @@ export default function Welcome({
           <h1 className="text-4xl sm:text-7xl md:text-8xl font-bold mb-3 tracking-tighter  bg-gradient-to-r from-blue-500 dark:to-white to-black/60 bg-clip-text text-transparent text-shadow-amber-200">
             Fsegt Classroom
           </h1>
-          <p className="text-sm m-3 font-semibold z-30 text-gray-600 dark:text-white">
+          <p className="text-sm m-3 font-semibold z-30 text-gray-600 dark:text-white  p-2">
             Hello and thank you for joining Fsegt Classrom . your new hub for
             learning, collaboration, and growth! Whether you're a student,
             teacher, or lifelong learner, we’re here to make education simple,
