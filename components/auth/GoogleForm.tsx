@@ -28,7 +28,7 @@ export default function GoogleForm() {
     <Button
       ref={but}
       onClick={handleGoogleSignIn}
-      className="cursor-pointer hover:scale-101 font-semibold"
+      className="cursor-pointer hover:scale-101 font-semibold z-40"
     >
       Continue with google <FcGoogle />
     </Button>
