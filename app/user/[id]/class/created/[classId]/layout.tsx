@@ -17,6 +17,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Header from "@/components/Header";
 
 export default async function Layout({
   children,
@@ -27,11 +28,14 @@ export default async function Layout({
 }) {
   const { classId } = await params;
   const FindClass = await FindClassById(classId);
+  const user = await GetUser();
+
+  let CLass: Class = {} as Class;
 
   if (FindClass) {
+    console.log();
     //check the auth for the user as a teacher
-    const CLass: Class = await getClassById(classId);
-    const user = await GetUser();
+    CLass = await getClassById(classId);
     if (CLass.teacher_id != user?.id) {
       notFound();
     }
@@ -40,29 +44,28 @@ export default async function Layout({
   }
 
   return (
-    <SidebarProvider className="h-fit">
-      <SidebarLeft className="sticky top-[75px]" />
-      <SidebarInset className="sticky top-[73px]">
-        <div className="sticky top-[73px] flex h-14 shrink-0 items-center gap-2 bg-background">
-          <div className="flex flex-1 items-center gap-2 px-3">
+    <SidebarProvider>
+      <SidebarLeft CLass={CLass} User={user} />
+      <SidebarInset>
+        <header className="sticky top-0 backdrop-blur-sm flex h-14 shrink-0 items-center gap-2 z-50 ">
+          <div className="flex flex-1 items-center gap-2 px-3 ">
             <SidebarTrigger />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="line-clamp-1">
-                    Project Management & Task Tracking
+                  <BreadcrumbPage className="line-clamp-1 text-2xl capitalize">
+                    {CLass.class_name}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-        </div>
-        <ScrollArea className="flex flex-1 flex-col gap-4 p-4 h-svh">
-          {children}
-        </ScrollArea>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 ">{children}</div>
       </SidebarInset>
-      <SidebarRight className="sticky top-[75px]" />
+
+      <SidebarRight CLass={CLass} User={user} />
     </SidebarProvider>
   );
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { GetUser } from "@/utils/getuser";
 import { notFound } from "next/navigation";
 import HomePage from "@/components/user/HomePage";
+import Header from "@/components/Header";
 
 export default async function page({
   params,
@@ -18,6 +19,7 @@ export default async function page({
   }
   return (
     <>
+      <Header />
       <HomePage user={user} />
     </>
   );
