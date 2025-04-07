@@ -16,8 +16,6 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Header from "@/components/Header";
 
 export default async function Layout({
   children,

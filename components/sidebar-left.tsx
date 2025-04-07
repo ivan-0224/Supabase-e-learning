@@ -7,6 +7,7 @@ import {
   Command,
   Home,
   Inbox,
+  LogOutIcon,
   MessageCircleQuestion,
   Search,
   Settings2,
@@ -26,12 +27,15 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { User } from "@supabase/supabase-js";
 
 import { usePathname } from "next/navigation";
 import { NavUser } from "./nav-user";
 import { DatePicker } from "./date-picker";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export function SidebarLeft({
   CLass,
@@ -194,15 +198,20 @@ export function SidebarLeft({
     ],
   };
 
+  const { isMobile } = useSidebar();
+
   return (
     <Sidebar className="border-r-0 " {...props}>
       <SidebarHeader>
-        <h1 className="text-black text-xl  p-2 bg-white dark:bg-black rounded-md">
-          <div className="flex">
-            <span className="font-semibold  dark:text-white">Fsegt</span>
-            <span className="text-blue-400 font-semibold">Classroom</span>
-          </div>
-        </h1>
+        {isMobile && (
+          <h1 className="text-black text-xl  p-2 bg-white dark:bg-black rounded-md">
+            <div className="flex">
+              <span className="font-semibold  dark:text-white">Fsegt</span>
+              <span className="text-blue-400 font-semibold">Classroom</span>
+            </div>
+          </h1>
+        )}
+
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
@@ -215,6 +224,11 @@ export function SidebarLeft({
         </div>
 
         <NavUser user={USER} />
+        <Button asChild className="text-start">
+          <Link href={"/"}>
+            Go back To home <LogOutIcon />
+          </Link>
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );
