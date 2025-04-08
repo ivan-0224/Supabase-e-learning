@@ -1,7 +1,7 @@
 import React from "react";
 
 import { GetUser } from "@/utils/getuser";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import HomePage from "@/components/user/HomePage";
 import Header from "@/components/Header";
 
@@ -14,9 +14,12 @@ export default async function page({
   const user = await GetUser();
 
   //so the user can't enter any wrong id
-  if (user?.id != id) {
-    notFound();
+  if (user?.id === undefined || !user || user == null) {
+    redirect("/");
+  } else if (user?.id != id) {
+    redirect(`/user/${user.id}`);
   }
+
   return (
     <>
       <Header />
