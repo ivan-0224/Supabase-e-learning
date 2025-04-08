@@ -1,7 +1,7 @@
 import React from "react";
 import { FindClassById, getClassById } from "@/utils/getclass";
 import { GetUser } from "@/utils/getuser";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { SidebarLeft } from "@/components/sidebar-left";
 import { SidebarRight } from "@/components/sidebar-right";
 import {
@@ -32,14 +32,13 @@ export default async function Layout({
   let CLass: Class = {} as Class;
 
   if (FindClass) {
-    console.log();
     //check the auth for the user as a teacher
     CLass = await getClassById(classId);
     if (CLass.teacher_id != user?.id) {
-      notFound();
+      redirect("/");
     }
   } else {
-    notFound();
+    redirect("/");
   }
 
   return (
