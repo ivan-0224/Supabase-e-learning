@@ -6,6 +6,7 @@ import ClassCreatedContainer from "@/components/user/created/ClassCreatedContain
 import ClassJoinprompt from "@/components/user/joined/ClassJoinprompt";
 import { User } from "@supabase/supabase-js";
 import { getCreatedClass, getJoinedClass } from "@/utils/getclass";
+import { Class } from "@/utils/types";
 
 export default async function HomePage({ user }: { user: User }) {
   //GET created classes

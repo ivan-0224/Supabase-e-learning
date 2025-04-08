@@ -74,7 +74,7 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
               <Skeleton className="w-[60%] h-3 " />
             ) : (
               <div className=" text-sm select-all text-black/50 dark:text-white ">
-                {Teacher?.teacher_mail}
+                {Teacher?.teacher_name}
               </div>
             )}
           </div>

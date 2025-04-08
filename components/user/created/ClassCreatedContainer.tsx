@@ -1,6 +1,7 @@
 import React from "react";
 import { ClassLoading } from "../../skeletons/ClassLoading";
 import { User } from "@supabase/supabase-js";
+import { Class } from "@/utils/types";
 
 const ClassCreatedCard = React.lazy(() => import("./ClassCreatedCard"));
 

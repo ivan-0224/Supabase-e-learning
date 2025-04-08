@@ -13,6 +13,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ConfirmDelete from "./ConfirmDelete";
+import { Class, Teacher } from "@/utils/types";
 
 export default function ClassCreatedCard({
   Class,

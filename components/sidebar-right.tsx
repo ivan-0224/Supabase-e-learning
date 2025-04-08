@@ -16,6 +16,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
 import ShowCode from "./class/ShowCode";
+import { Class } from "@/utils/types";
 
 export function SidebarRight({
   CLass,

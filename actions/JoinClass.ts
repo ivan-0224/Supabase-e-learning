@@ -50,7 +50,7 @@ export const JoinClass = async(state:any, formData:FormData)=>{
                 }
             ])
             if(error){
-                return {JoinError:"You already joined the class"}
+                return {JoinError:"You Joined this class Before"}
             }else{
 
                 return {succes:"You Joined the class Succefully !"}

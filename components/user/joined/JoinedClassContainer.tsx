@@ -1,4 +1,5 @@
 import { ClassLoading } from "@/components/skeletons/ClassLoading";
+import { Class } from "@/utils/types";
 import React from "react";
 
 const ClassJoinedCard = React.lazy(() => import("./ClassJoinedCard"));

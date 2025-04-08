@@ -16,6 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Class } from "@/utils/types";
 
 export default async function Layout({
   children,

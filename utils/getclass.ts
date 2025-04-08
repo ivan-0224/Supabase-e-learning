@@ -1,7 +1,8 @@
 "use server"
 import { User } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
-import { array } from "zod";
+
+import { Class } from "./types";
 
 
 export const getCreatedClass = async (user:User)=>{
@@ -10,12 +11,15 @@ export const getCreatedClass = async (user:User)=>{
     if(data){
         return data
     }
+    return null
 }
 
 export const getJoinedClass = async (user:User)=>{
+
     const supabase = await createClient();
     //first get the classes id from studentClass table
     const {data} = await supabase.from("studentClass").select("*").eq("student_id",user?.id)
+
     if(data){
         const classes = await Promise.all(
             data.map(async (studentClass) => {
@@ -26,9 +30,10 @@ export const getJoinedClass = async (user:User)=>{
         if(classes){
             return classes
         }
+        return null
 
     }
-
+    return null
 }
 
 export const getClassById = async(classId:string)=>{

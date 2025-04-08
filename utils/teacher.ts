@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "./supabase/server"
+import { Teacher } from "./types"
 
 
 export const getTeacherById = async(teaher_id:string)=>{

@@ -36,6 +36,7 @@ import { NavUser } from "./nav-user";
 import { DatePicker } from "./date-picker";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { Class } from "@/utils/types";
 
 export function SidebarLeft({
   CLass,
