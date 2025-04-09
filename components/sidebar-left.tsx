@@ -97,17 +97,17 @@ export function SidebarLeft({
         pages: [
           {
             name: "Td Submissions",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group1/td`,
             emoji: "📔",
           },
           {
             name: "Td submissions by grp",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group1/tdbgroup`,
             emoji: "🤝",
           },
           {
             name: "Notes",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group1/notes`,
             emoji: "🌟",
           },
         ],
@@ -118,17 +118,17 @@ export function SidebarLeft({
         pages: [
           {
             name: "Td Submissions",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group2/td`,
             emoji: "📔",
           },
           {
             name: "Td submissions by grp",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group2/tdbgroup`,
             emoji: "🤝",
           },
           {
             name: "Notes",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group2/notes`,
             emoji: "🌟",
           },
         ],
@@ -139,17 +139,17 @@ export function SidebarLeft({
         pages: [
           {
             name: "Td Submissions",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group3/td`,
             emoji: "📔",
           },
           {
             name: "Td submissions by grp",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group3/tdbgroup`,
             emoji: "🤝",
           },
           {
             name: "Notes",
-            url: "#",
+            url: `/user/${User?.id}/class/created/${CLass.class_id}/group3/notes`,
             emoji: "🌟",
           },
         ],

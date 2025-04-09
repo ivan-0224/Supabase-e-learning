@@ -1,7 +1,7 @@
 import React from "react";
 
 import { GetUser } from "@/utils/getuser";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import HomePage from "@/components/user/HomePage";
 import Header from "@/components/Header";
 
