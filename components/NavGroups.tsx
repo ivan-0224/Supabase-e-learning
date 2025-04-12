@@ -18,6 +18,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import TextHover from "./animations/TextHover";
+import Link from "next/link";
 
 export function NavGroups({
   groups,
@@ -28,6 +29,7 @@ export function NavGroups({
     pages: {
       name: string;
       emoji: React.ReactNode;
+      url: string;
     }[];
   }[];
 }) {
@@ -41,10 +43,10 @@ export function NavGroups({
               <SidebarMenuItem>
                 <TextHover text={group.name} key={group.name}>
                   <SidebarMenuButton asChild>
-                    <a href="#">
+                    <Link href="#">
                       <span>{group.emoji}</span>
                       <span>{group.name}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>{" "}
                 </TextHover>
                 <CollapsibleTrigger asChild>
@@ -61,10 +63,10 @@ export function NavGroups({
                     {group.pages.map((page) => (
                       <SidebarMenuSubItem key={page.name}>
                         <SidebarMenuSubButton asChild>
-                          <a href="#">
+                          <Link href={page.url}>
                             <span>{page.emoji}</span>
                             <span>{page.name}</span>
-                          </a>
+                          </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
