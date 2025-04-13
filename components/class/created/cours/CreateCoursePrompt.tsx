@@ -12,7 +12,7 @@ import { Plus } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FileUploader } from "../../FileUploader";
+
 import { Button } from "@/components/ui/button";
 import { useDropzone } from "react-dropzone";
 import { Upload } from "lucide-react";
