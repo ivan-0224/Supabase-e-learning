@@ -1,5 +1,13 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  ReactHTMLElement,
+  useActionState,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,13 +26,22 @@ import { useDropzone } from "react-dropzone";
 import { Upload } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
+import { ComputeFileHash } from "@/utils/Files";
 
 export default function CreateCoursePrompt() {
-  // Define the files state with type File[]
+  const Sumbitref = useRef<HTMLButtonElement>(null);
+
+  const [fileProgess, setProgess] = useState(0);
+  const [ProgessText, setProgressText] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  // Declare onDrop with the type of acceptedFiles as an array of File objects.
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
+    setProgess(0);
+    setProgressText(
+      `0 / ${acceptedFiles.length} files , uploading progress : 0 %`
+    );
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -63,39 +80,117 @@ export default function CreateCoursePrompt() {
     );
   };
 
+  //Add files to file storage in supabase
+  useEffect(() => {
+    const AddToBuckets = async () => {
+      //disable the submit button
+      if (Sumbitref.current) {
+        Sumbitref.current.disabled = true;
+        Sumbitref.current.innerHTML = "Waiting for files...";
+      }
+      console.log(files.length);
+      //Progress By = 100 / number of files
+      const ProgressValue = 100 / files.length;
+
+      const supabase = createClient();
+
+      const { data: fileList, error: listError } = await supabase.storage
+        .from("uploads")
+        .list("uploads/"); // List files at the root of the bucket or specify a folder
+
+      if (listError) {
+        toast.error("Error in the server Trey Another Time");
+      } else {
+        //Add files to bucket sotorage in supabase
+        const PromiseUpload = files.map(async (file) => {
+          //Hash the file
+          const HashCode = await ComputeFileHash(file);
+          const filePath = `uploads/${HashCode}_${file.name}`;
+
+          //CHEKC IF THE FILE ALREADY EXIST IN THE BUCKET STORAGE
+          const fileExists = fileList.some((f) => {
+            console.log(f.name);
+            return `uploads/${f.name}` === filePath;
+          });
+          console.log(fileList);
+          console.log(filePath);
+          console.log(fileExists);
+          if (fileExists) {
+            //Update the progess bar and ignore the uploading
+            setProgess((fileProgess) => {
+              const progress = fileProgess + ProgressValue;
+              //Number of files updated
+              const nbFiles = Math.floor((progress * files.length) / 100);
+
+              setProgressText(
+                `${nbFiles} / ${
+                  files.length
+                } files , uploading progress : ${Math.floor(progress)} %`
+              );
+
+              if (Sumbitref.current && progress == 100) {
+                Sumbitref.current.disabled = false;
+                Sumbitref.current.innerHTML = "Create";
+              }
+              return progress;
+            });
+          } else {
+            //first we need to add the file to the storage of supbase
+            const { error } = await supabase.storage
+              .from("uploads")
+              .upload(filePath, file, { upsert: false });
+
+            if (error) {
+              console.log(error.message);
+              toast.error(
+                "Eroor in uploading file : " + filePath + " " + error.message,
+                {
+                  position: "top-center",
+                }
+              );
+            } else {
+              //Update the progess bar
+              setProgess((fileProgess) => {
+                const progress = fileProgess + ProgressValue;
+                //Number of files updated
+                const nbFiles = Math.floor((progress * files.length) / 100);
+
+                setProgressText(
+                  `${nbFiles} / ${
+                    files.length
+                  } files , uploading progress : ${Math.floor(progress)} %`
+                );
+
+                if (Sumbitref.current && progress == 100) {
+                  Sumbitref.current.disabled = false;
+                  Sumbitref.current.innerHTML = "Create";
+                }
+                return progress;
+              });
+
+              //if there is no error in the installation of the file in the storage bucket of supabase
+              // then we can get  the url and install the file to the documents table
+              const {
+                data: { publicUrl: publicURL },
+              } = supabase.storage.from("uploads").getPublicUrl(filePath);
+              toast.success(`${file.name} installed succefully`, {
+                position: "top-center",
+                style: { background: "#4CAF50", color: "#fff", border: "none" },
+              });
+              console.log(publicURL);
+            }
+          }
+        });
+      }
+    };
+    //disabel the submit button
+
+    AddToBuckets();
+  }, [files]);
+
   //CREATE A COURSE
   const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const supabase = createClient();
-    const PromiseUpload = files.map(async (file) => {
-      console.log(file);
-      const filePath = `uploads/${Date.now()}_${file.name}`;
-
-      //first we need to add the file to the storage of supbase
-      const { error } = await supabase.storage
-        .from("uploads")
-        .upload(filePath, file);
-
-      if (error) {
-        console.log(error.message);
-        toast.error(
-          "Eroor in uploading file : " + filePath + " " + error.message,
-          {
-            position: "top-center",
-          }
-        );
-      } else {
-        //if there is no error in the installation of the file in the storage bucket of supabase
-        // then we can get  the url and install the file to the documents table
-        const {
-          data: { publicUrl: publicURL },
-        } = supabase.storage.from("uploads").getPublicUrl(filePath);
-        toast.success(`${file.name} installed succefully`, {
-          position: "top-center",
-          style: { background: "#4CAF50", color: "#fff", border: "none" },
-        });
-      }
-    });
   };
 
   return (
@@ -110,7 +205,7 @@ export default function CreateCoursePrompt() {
             please fill the fileds to create your course
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={HandleSubmit} className=" space-y-2">
+        <form onSubmit={HandleSubmit} className=" space-y-2.5">
           <Label htmlFor="">Course Name 🤔:</Label>
           <Input placeholder="type your course name" required />
           <Label htmlFor="">Course Description 📝:</Label>
@@ -119,7 +214,13 @@ export default function CreateCoursePrompt() {
             Documents:<span className=" text-gray-500">(optional)</span>
           </Label>
           {FileUploaderUi()}
-          <Button className="w-full cursor-pointer">Create</Button>
+
+          <span className="text-sm text-gray-500 p-1">{ProgessText}</span>
+          <Progress value={fileProgess} className="mt-2" />
+
+          <Button ref={Sumbitref} className="w-full cursor-pointer">
+            Create
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
