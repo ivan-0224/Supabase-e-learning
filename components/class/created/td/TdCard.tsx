@@ -15,7 +15,7 @@ export default function TdCard() {
     <Accordion
       type="single"
       collapsible
-      className="border p-2 rounded-md shadow"
+      className="border p-2 rounded-md shadow w-full"
     >
       <AccordionItem value="item-1">
         <AccordionTrigger className=" cursor-pointer">

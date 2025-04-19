@@ -225,11 +225,7 @@ export default function CreateCoursePrompt() {
   useEffect(() => {
     if (state?.success) {
       toast.success(state.success);
-    } else if (!state?.fieldsError && !state?.success) {
-      toast.error(
-        "Eroor in downloading files delete the course and try again",
-        { duration: Infinity }
-      );
+      window.location.reload();
     }
   }, [state]);
   return (

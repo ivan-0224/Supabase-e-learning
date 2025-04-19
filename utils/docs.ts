@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "./supabase/server"
-import { Doc } from "./types";
+import { CourseDoc, Doc } from "./types";
 
 export const findDocByHashCode = async (code:string)=>{
     const supabase = await createClient();
@@ -36,3 +36,33 @@ export const addCourseDoc = async(courseId:string, docId:string)=>{
     return true
 }
 
+
+export const getDocument = async (docId:string)=>{
+    const supabase = await createClient();
+    const doc = await supabase.from("document").select("*").eq("doc_id", docId).single()
+    if (doc){
+        return doc.data as Doc
+    }
+
+}
+
+
+export const getDocuments = async (courseId:string)=>{
+    const supabase = await createClient();
+    const {data, error} = await supabase.from("CourseDocument").select("*").eq("course_id", courseId).order("created_at", {ascending:false})
+
+    if(data){
+        const courseDocs = data as CourseDoc[]
+        const Docs = await Promise.all( courseDocs.map(async (courseDoc)=>{
+            const docId = courseDoc.doc_id as string
+            const doc = await getDocument(docId)
+            if(doc){
+                return doc
+            }
+        }))
+        if(Docs){
+            return Docs as Doc[]
+        }
+    }
+
+}
