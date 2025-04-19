@@ -1,7 +1,5 @@
 "use client";
 import React, {
-  ButtonHTMLAttributes,
-  ReactHTMLElement,
   useActionState,
   useCallback,
   useEffect,
@@ -28,10 +26,16 @@ import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 import { ComputeFileHash } from "@/utils/Files";
+import { Doc } from "@/utils/types";
+import { CreateCourse } from "@/actions/Courses/CreateCourse";
+import { useParams } from "next/navigation";
 
 export default function CreateCoursePrompt() {
-  const Sumbitref = useRef<HTMLButtonElement>(null);
+  const params = useParams();
+  const courseId = params.classId as string;
 
+  const Sumbitref = useRef<HTMLButtonElement>(null);
+  const [documents, setDocuments] = useState<Doc[]>([]);
   const [fileProgess, setProgess] = useState(0);
   const [ProgessText, setProgressText] = useState("");
   const [files, setFiles] = useState<File[]>([]);
@@ -42,9 +46,9 @@ export default function CreateCoursePrompt() {
     setProgressText(
       `0 / ${acceptedFiles.length} files , uploading progress : 0 %`
     );
+    setDocuments([]);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
   const FileUploaderUi = () => {
     return (
       <div>
@@ -88,7 +92,6 @@ export default function CreateCoursePrompt() {
         Sumbitref.current.disabled = true;
         Sumbitref.current.innerHTML = "Waiting for files...";
       }
-      console.log(files.length);
       //Progress By = 100 / number of files
       const ProgressValue = 100 / files.length;
 
@@ -99,7 +102,12 @@ export default function CreateCoursePrompt() {
         .list("uploads/"); // List files at the root of the bucket or specify a folder
 
       if (listError) {
-        toast.error("Error in the server Trey Another Time");
+        toast.error(
+          "Error in the server Trey Another Time Or refresh the page",
+          {
+            duration: Infinity,
+          }
+        );
       } else {
         //Add files to bucket sotorage in supabase
         const PromiseUpload = files.map(async (file) => {
@@ -109,12 +117,8 @@ export default function CreateCoursePrompt() {
 
           //CHEKC IF THE FILE ALREADY EXIST IN THE BUCKET STORAGE
           const fileExists = fileList.some((f) => {
-            console.log(f.name);
             return `uploads/${f.name}` === filePath;
           });
-          console.log(fileList);
-          console.log(filePath);
-          console.log(fileExists);
           if (fileExists) {
             //Update the progess bar and ignore the uploading
             setProgess((fileProgess) => {
@@ -134,6 +138,21 @@ export default function CreateCoursePrompt() {
               }
               return progress;
             });
+
+            const {
+              data: { publicUrl: publicURL },
+            } = supabase.storage.from("uploads").getPublicUrl(filePath);
+            toast.success(`${file.name} installed succefully`, {
+              position: "top-center",
+              style: { background: "#4CAF50", color: "#fff", border: "none" },
+            });
+
+            const document: Doc = {
+              doc_name: file.name as string,
+              doc_url: publicURL as string,
+              hash_value: HashCode as string,
+            };
+            setDocuments((prevDocument) => [...prevDocument, document]);
           } else {
             //first we need to add the file to the storage of supbase
             const { error } = await supabase.storage
@@ -177,7 +196,14 @@ export default function CreateCoursePrompt() {
                 position: "top-center",
                 style: { background: "#4CAF50", color: "#fff", border: "none" },
               });
-              console.log(publicURL);
+
+              const document: Doc = {
+                doc_name: file.name as string,
+                doc_url: publicURL as string,
+                hash_value: HashCode as string,
+              };
+              console.log(document);
+              setDocuments((prevDocument) => [...prevDocument, document]);
             }
           }
         });
@@ -189,10 +215,23 @@ export default function CreateCoursePrompt() {
   }, [files]);
 
   //CREATE A COURSE
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const [state, action, pending] = useActionState(
+    (state: any, formadata: FormData) =>
+      CreateCourse(state, formadata, documents, courseId),
+    undefined
+  );
 
+  //Eroor handling
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(state.success);
+    } else if (!state?.fieldsError && !state?.success) {
+      toast.error(
+        "Eroor in downloading files delete the course and try again",
+        { duration: Infinity }
+      );
+    }
+  }, [state]);
   return (
     <Dialog>
       <DialogTrigger className="flex items-center gap-1 cursor-pointer outline p-2 rounded-md bg-blue-400 text-white hover:cursor-pointer text-sm">
@@ -205,11 +244,29 @@ export default function CreateCoursePrompt() {
             please fill the fileds to create your course
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={HandleSubmit} className=" space-y-2.5">
+        <form action={action} className="flex flex-col gap-2">
           <Label htmlFor="">Course Name 🤔:</Label>
-          <Input placeholder="type your course name" required />
+          <Input
+            placeholder="type your course name"
+            name="courseName"
+            required
+          />
+          {state?.fieldsError?.courseName && (
+            <span className=" text-sm text-red-400 p-1">
+              {state.fieldsError.courseName}
+            </span>
+          )}
           <Label htmlFor="">Course Description 📝:</Label>
-          <Textarea placeholder="type your course name" required />
+          <Textarea
+            placeholder="type your course Description"
+            name="courseDesc"
+            required
+          />
+          {state?.fieldsError?.courseDesc && (
+            <span className=" text-sm text-red-400 p-1">
+              {state.fieldsError.courseDesc}
+            </span>
+          )}
           <Label>
             Documents:<span className=" text-gray-500">(optional)</span>
           </Label>
@@ -218,7 +275,11 @@ export default function CreateCoursePrompt() {
           <span className="text-sm text-gray-500 p-1">{ProgessText}</span>
           <Progress value={fileProgess} className="mt-2" />
 
-          <Button ref={Sumbitref} className="w-full cursor-pointer">
+          <Button
+            disabled={pending}
+            ref={Sumbitref}
+            className="w-full cursor-pointer"
+          >
             Create
           </Button>
         </form>

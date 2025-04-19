@@ -1,22 +1,86 @@
 "use server"
 
+import { addCourse } from "@/utils/course";
+import { addDocument, findDocByHashCode } from "@/utils/docs";
 import { createClient } from "@/utils/supabase/server";
+import { Course, Doc } from "@/utils/types";
+import { z } from "zod";
+
+
+const CourseSchema = z.object(
+  {
+    courseName: z.string().min(3).trim(),
+    courseDesc: z.string().max(30).trim()  
+  }
+)
 
 
 
 
-
-
-//to create a course first you need to:
-// 1 * add the course name and description to the course table
-// 2 * add the document informations to the documents table if it did not exist before 
-//--- TO CHECK IF A DOCUMENT DID'NT EXIST BEFORE U MUST CHEKC THE HASH VALUE OF THE TWO FILE DATA IF THEY ARE THE SAME OR NOT
-// 3 * then and finally  add the document id and the course id to the CourseDocument table if the file id did'nt exist before in the course documents
-
-const CreateCourse = async(state:any , formdata:FormData, files:File[])=>{
+export const CreateCourse = async(state:any , formdata:FormData, files:Doc[], classID:string)=>{
   const supabase = await createClient();
 
-  
-  
+  const courseName = formdata.get('courseName') as string
+  const courseDesc = formdata.get('courseDesc') as string
+  const docs = files 
+
+  const ValidFields = CourseSchema.safeParse({
+    courseName:courseName,
+    courseDesc:courseDesc,
+  })
+  if(!ValidFields.success){
+    return {fieldsError: ValidFields.error.flatten().fieldErrors }
+  }
+
+  // FIRST : WE ADD THE COURSE
+  const AddCourse= await addCourse([{class_id:classID,course_name:courseName, course_descriptions:courseDesc}])
+
+
+  if(AddCourse){
+    var courseId = AddCourse[0].course_id
+  }
+
+  // SECOND : IF THE USER ADDED FILES
+  // WE ADD THEM TO DOCUMENTS TABLE
+  // THAN WE ADD THEM TO THE COURSEDOCUMENT TABLE
+  if(docs){
+    docs.map(async (doc)=>{
+      const hashCode = doc.hash_value as string
+      //If THE hash code of the document doesnt appear in the document table we add the document to the doc table
+      const DOC :Doc[]= await findDocByHashCode(hashCode)
+
+
+
+      //IF THE DOCUMENT DOESN'T EXIST WE ADD IT TO THE DOCUMENT TABLE
+      if(DOC.length === 0){
+        const addDoc = await addDocument([doc])
+        if (addDoc){
+          const docId = addDoc[0].doc_id 
+          //ADD THE DOCUMENT TO THE COURSE DOC TABLE
+          const {error} = await supabase.from("CourseDocument").insert([{
+            course_id:courseId as string,
+            doc_id:docId as string
+          }])
+          if(error){
+              return {Error:"Error in Creating Documents try again"}
+          }
+        };
+
+
+      }else{
+        //ADD THE DOCUMENT TO THE COURSE DOC TABLE
+        const docId = DOC[0].doc_id 
+        const {error} = await supabase.from("CourseDocument").insert([{
+          course_id:courseId as string,
+          doc_id:docId as string
+        }])
+        if(error){
+          return {Error:"Error in Creating Documents try again"}
+        }
+      }
+    })
+  }
+
+  return {success:"Class Created Succefully !"}
 }
 
