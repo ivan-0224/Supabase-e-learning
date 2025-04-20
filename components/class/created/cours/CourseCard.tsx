@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -15,6 +15,8 @@ import { formatDate } from "@/utils/date";
 import { getCrouseDocuments } from "@/utils/docs";
 import { Skeleton } from "@/components/ui/skeleton";
 import DocLoading from "@/components/skeletons/DocLoading";
+import { DeleteCourse } from "@/actions/Courses/DeleteCourse";
+import ConfirmDeleteCourse from "./ConfirmDeleteCourse";
 const Document = React.lazy(() => import("../Document"));
 
 export default function CourseCard({ course }: { course: Course }) {
@@ -48,6 +50,11 @@ export default function CourseCard({ course }: { course: Course }) {
         <AccordionContent className=" space-y-3">
           <p className="text-lg">{course.course_descriptions} </p>
           <p className=" font-semibold text-xl">Documents :</p>
+          {docs.length === 0 && (
+            <span className="text-sm text-gray-500 p-1">
+              No Documents Here ∅
+            </span>
+          )}
           {/* DOCUMENTS */}
           <div className="flex gap-2 flex-col overflow-y-auto group">
             {docs ? (
@@ -67,14 +74,7 @@ export default function CourseCard({ course }: { course: Course }) {
           </form>
           <p className="font-semibold">comments:</p>
           <CommentContainer />
-          <form className="w-full">
-            <Button
-              className=" float-right cursor-pointer"
-              variant="destructive"
-            >
-              Delete Course
-            </Button>
-          </form>
+          <ConfirmDeleteCourse courseId={course.course_id as string} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>
