@@ -33,10 +33,11 @@ import { User } from "@supabase/supabase-js";
 
 import { usePathname } from "next/navigation";
 import { NavUser } from "./nav-user";
-import { DatePicker } from "./date-picker";
+
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Class } from "@/utils/types";
+import { formatDate } from "@/utils/date";
 
 export function SidebarLeft({
   CLass,
@@ -201,6 +202,9 @@ export function SidebarLeft({
 
   const { isMobile } = useSidebar();
 
+  const date = new Date();
+  const DATE = formatDate(date);
+
   return (
     <Sidebar className="border-r-0 " {...props}>
       <SidebarHeader>
@@ -220,9 +224,7 @@ export function SidebarLeft({
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter className="lg:hidden">
-        <div className="sm:hidden">
-          <DatePicker />
-        </div>
+        <div className="sm:hidden w-full text-center text-gray-500">{DATE}</div>
 
         <NavUser user={USER} />
         <Button asChild className="text-start">
