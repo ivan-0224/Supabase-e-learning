@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'nxvlyyawvemxtquqpmvf.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/uploads/**',
+      },
+    ],
+  },
 
 };
 

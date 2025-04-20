@@ -6,13 +6,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Document from "../Document";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CommentContainer from "../CommentContainer";
 import { Course, Doc } from "@/utils/types";
 import { formatDate } from "@/utils/date";
 import { getDocuments } from "@/utils/docs";
+import { Skeleton } from "@/components/ui/skeleton";
+import DocLoading from "@/components/skeletons/DocLoading";
+const Document = React.lazy(() => import("../Document"));
 
 export default function CourseCard({ course }: { course: Course }) {
   const date = new Date(course.created_at as string);
@@ -36,21 +39,28 @@ export default function CourseCard({ course }: { course: Course }) {
       <AccordionItem value="item-1">
         <AccordionTrigger className=" cursor-pointer">
           <div className="flex flex-col">
-            <span className="font-semibold text-lg capitalize">
+            <span className="font-semibold text-xl capitalize">
               {course.course_name}
             </span>
             <span className="text-gray-500">Created at : {DATE} </span>
           </div>
         </AccordionTrigger>
         <AccordionContent className=" space-y-3">
-          <p>{course.course_descriptions} </p>
-          <p className=" font-semibold">Documents :</p>
+          <p className="text-lg">{course.course_descriptions} </p>
+          <p className=" font-semibold text-xl">Documents :</p>
           {/* DOCUMENTS */}
-          <div className="flex gap-2 overflow-x-auto">
-            {docs.map((doc) => (
-              <Document key={doc.doc_id} />
-            ))}
+          <div className="flex gap-2 flex-col overflow-y-auto group">
+            {docs ? (
+              docs.map((doc) => (
+                <React.Suspense key={doc?.doc_id} fallback={<DocLoading />}>
+                  <Document document={doc} key={doc?.doc_id} />
+                </React.Suspense>
+              ))
+            ) : (
+              <DocLoading />
+            )}
           </div>
+
           <form action="" className="p-1 flex gap-1 items-center">
             <Input placeholder="add a comment..." />
             <Button>Add</Button>

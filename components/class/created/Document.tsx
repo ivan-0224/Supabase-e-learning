@@ -5,14 +5,78 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { Doc } from "@/utils/types";
+import Image from "next/image";
+import { FileText } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { formatDate } from "@/utils/date";
 
-export default function Document() {
+function isImageFilename(filename: string) {
+  const imageExtensions = [
+    "jpg",
+    "jpeg",
+    "jfif",
+    "pjpeg",
+    "pjp",
+    "png",
+    "gif",
+    "jp2",
+    "j2k",
+    "jpf",
+    "jpx",
+    "jpm",
+    "mj2",
+    "webp",
+    "apng",
+    "avif",
+    "svg",
+    "svgz",
+    "bmp",
+    "ico",
+    "cur",
+    "tif",
+    "tiff",
+    "heif",
+    "heic",
+    "jxl",
+  ];
+  const lower = filename.toLowerCase();
+  return imageExtensions.some((ext) => lower.endsWith(`.${ext}`));
+}
+export default function Document({ document }: { document: Doc }) {
+  const date = new Date(document?.created_at as string);
+  const DATE = formatDate(date);
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div className=" border border-blue-500 w-fit cursor-pointer hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all p-2 ">
-          Document1.pdf
-        </div>
+        <Link target="_blank" href={document?.doc_url as string}>
+          <div className=" cursor-pointer hover:scale-100 group-hover:scale-95 transition-all flex items-center border sm:p-2 rounded-lg dark:hover:bg-black/30 hover:shadow-lg  w-full">
+            <div className="lg:w-auto flex items-center ">
+              {(document?.doc_url as string) &&
+              isImageFilename(document.doc_url as string) ? (
+                <Image
+                  src={document?.doc_url as string}
+                  alt="img"
+                  width={100}
+                  height={100}
+                  className="lg:w-auto w-[100px] rounded-l-lg"
+                />
+              ) : (
+                <div className="p-2">
+                  <FileText />
+                </div>
+              )}
+            </div>
+
+            <div className="p-2 text-balance flex flex-col ">
+              <div className="text-balance font-semibold sm:text-md ">
+                {document?.doc_name as string}
+              </div>{" "}
+              <div className="text-sm text-gray-500">{DATE}</div>
+            </div>
+          </div>
+        </Link>
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem className=" cursor-pointer">Delete</ContextMenuItem>

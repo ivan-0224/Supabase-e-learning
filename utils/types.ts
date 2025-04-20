@@ -23,7 +23,7 @@ export interface Doc{
   doc_id? :string|undefined|null;
   created_at? :string|undefined|null;
   doc_name? :string|undefined|null;
-  doc_url? :string|undefined|null;
+  doc_url? :string|null;
   hash_value? :string|undefined|null;
 }
 
