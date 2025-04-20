@@ -60,7 +60,7 @@ export default function Document({ document }: { document: Doc }) {
                   alt="img"
                   width={100}
                   height={100}
-                  className="lg:w-auto w-[100px] rounded-l-lg"
+                  className="lg:w-auto rounded-l-lg"
                 />
               ) : (
                 <div className="p-2">

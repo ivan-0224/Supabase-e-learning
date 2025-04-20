@@ -9,7 +9,7 @@ export default function CourseContainer({
   Courses: Course[] | undefined | null;
 }) {
   return (
-    <div className="p-2 flex items-center justify-center flex-col gap-2.5 ">
+    <div className="p-4 flex items-center justify-center flex-col gap-5">
       <CreateCoursePrompt />
 
       {Courses?.length != 0 ? (

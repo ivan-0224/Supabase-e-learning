@@ -34,7 +34,6 @@ import { CreateTd } from "@/actions/Td/CreateTd";
 export default function CreateTdPrompt() {
   const params = useParams();
   const classId = params.classId as string;
-  console.log(classId);
 
   const Sumbitref = useRef<HTMLButtonElement>(null);
   const [documents, setDocuments] = useState<Doc[]>([]);
