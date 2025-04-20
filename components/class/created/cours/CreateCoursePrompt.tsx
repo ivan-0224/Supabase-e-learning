@@ -32,7 +32,7 @@ import { useParams } from "next/navigation";
 
 export default function CreateCoursePrompt() {
   const params = useParams();
-  const courseId = params.classId as string;
+  const classId = params.classId as string;
 
   const Sumbitref = useRef<HTMLButtonElement>(null);
   const [documents, setDocuments] = useState<Doc[]>([]);
@@ -217,7 +217,7 @@ export default function CreateCoursePrompt() {
   //CREATE A COURSE
   const [state, action, pending] = useActionState(
     (state: any, formadata: FormData) =>
-      CreateCourse(state, formadata, documents, courseId),
+      CreateCourse(state, formadata, documents, classId),
     undefined
   );
 

@@ -41,3 +41,19 @@ export interface CourseDoc{
   course_id? :string|undefined|null;
   doc_id? :string|undefined|null;
 }
+
+export interface TD{
+  td_id? :string|undefined|null;
+  created_at? :string|undefined|null;
+  class_id? :string|undefined|null;
+  td_name? :string|undefined|null;
+  td_description? :string|undefined|null;
+}
+
+
+export interface TdDoc{
+  td_doc_id? :string|undefined|null;
+  created_at? :string|undefined|null;
+  td_id? :string|undefined|null;
+  doc_id? :string|undefined|null;
+}

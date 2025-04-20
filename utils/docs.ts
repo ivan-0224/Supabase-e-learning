@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "./supabase/server"
-import { CourseDoc, Doc } from "./types";
+import { CourseDoc, Doc, TdDoc } from "./types";
 
 export const findDocByHashCode = async (code:string)=>{
     const supabase = await createClient();
@@ -47,7 +47,7 @@ export const getDocument = async (docId:string)=>{
 }
 
 
-export const getDocuments = async (courseId:string)=>{
+export const getCrouseDocuments = async (courseId:string)=>{
     const supabase = await createClient();
     const {data, error} = await supabase.from("CourseDocument").select("*").eq("course_id", courseId).order("created_at", {ascending:false})
 
@@ -63,6 +63,30 @@ export const getDocuments = async (courseId:string)=>{
         if(Docs){
             return Docs as Doc[]
         }
+    }
+
+}
+
+
+export const getTdDocuments = async (tdId:string)=>{
+    const supabase = await createClient();
+    const {data, error} = await supabase.from("TdDocument").select("*").eq("td_id", tdId).order("created_at", {ascending:false})
+
+    if(data){
+        const courseDocs = data as TdDoc[]
+        const Docs = await Promise.all( courseDocs.map(async (courseDoc)=>{
+            const docId = courseDoc.doc_id as string
+            const doc = await getDocument(docId)
+            if(doc){
+                return doc
+            }
+        }))
+        if(Docs){
+            return Docs as Doc[]
+        }
+    }
+    if(error){
+        throw error
     }
 
 }

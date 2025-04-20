@@ -11,15 +11,16 @@ export default function CourseContainer({
   return (
     <div className="p-2 flex items-center justify-center flex-col gap-2.5 ">
       <CreateCoursePrompt />
-      {!Courses && (
+
+      {Courses?.length != 0 ? (
+        Courses?.map((course) => (
+          <CourseCard course={course} key={course.course_id} />
+        ))
+      ) : (
         <p className="text-gray-500 text-sm text-center pt-2.5">
           Create Your first Course So you can start 🧐
         </p>
       )}
-      {Courses &&
-        Courses.map((course) => (
-          <CourseCard course={course} key={course.course_id} />
-        ))}
     </div>
   );
 }

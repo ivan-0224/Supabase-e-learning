@@ -1,16 +1,35 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Document from "../Document";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CommentContainer from "../CommentContainer";
+import { Doc, TD } from "@/utils/types";
+import { formatDate } from "@/utils/date";
+import { getDocument, getTdDocuments } from "@/utils/docs";
+import DocLoading from "@/components/skeletons/DocLoading";
 
-export default function TdCard() {
+const Document = React.lazy(() => import("../Document"));
+
+export default function TdCard({ td }: { td: TD }) {
+  const date = new Date(td.created_at as string);
+  const DATE = formatDate(date);
+  const [docs, setDocs] = useState<Doc[]>([]);
+  //GET DOCUMENTS
+  useEffect(() => {
+    const GetDocs = async () => {
+      const Docs = await getTdDocuments(td.td_id as string);
+      setDocs(Docs as Doc[]);
+    };
+    GetDocs();
+  }, []);
+
   return (
     <Accordion
       type="single"
@@ -20,15 +39,25 @@ export default function TdCard() {
       <AccordionItem value="item-1">
         <AccordionTrigger className=" cursor-pointer">
           <div className="flex flex-col">
-            <span className="font-semibold text-lg">TD Name</span>
-            <span className="text-gray-500">Created at : </span>
+            <span className="font-semibold text-lg">{td?.td_name}</span>
+            <span className="text-gray-500">Created at : {DATE} </span>
           </div>
         </AccordionTrigger>
         <AccordionContent className=" space-y-3">
-          <p>TD for haaaaaaaaaa </p>
+          <p>{td?.td_description} </p>
           {/* DOCUMENTS */}
           <p className=" font-semibold">Documents :</p>
-          <div className="flex gap-2 overflow-x-auto">docs</div>
+          <div className="flex gap-2 flex-col overflow-y-auto group">
+            {docs ? (
+              docs.map((doc) => (
+                <React.Suspense key={doc?.doc_id} fallback={<DocLoading />}>
+                  <Document document={doc} key={doc?.doc_id} />
+                </React.Suspense>
+              ))
+            ) : (
+              <DocLoading />
+            )}
+          </div>
           <form action="" className="p-1 flex gap-1 items-center">
             <Input placeholder="add a comment..." />
             <Button>Add</Button>
@@ -40,7 +69,7 @@ export default function TdCard() {
               className=" float-right cursor-pointer"
               variant="destructive"
             >
-              Delete Course
+              Delete TD
             </Button>
           </form>
         </AccordionContent>

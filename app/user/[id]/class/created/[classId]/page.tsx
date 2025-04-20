@@ -4,6 +4,7 @@ import React from "react";
 import CourseContainer from "@/components/class/created/cours/CourseContainer";
 import TdContainer from "@/components/class/created/td/TdContainer";
 import { getCourses } from "@/utils/course";
+import { getTDs } from "@/utils/TD";
 
 export default async function page({
   params,
@@ -13,6 +14,9 @@ export default async function page({
   const { classId } = await params;
   //Get courses
   const courses = await getCourses(classId as string);
+
+  //Get Tds
+  const TDs = await getTDs(classId);
 
   return (
     <div>
@@ -29,7 +33,7 @@ export default async function page({
           <CourseContainer Courses={courses} />
         </TabsContent>
         <TabsContent value="Td">
-          <TdContainer />
+          <TdContainer tds={TDs} />
         </TabsContent>
       </Tabs>
     </div>

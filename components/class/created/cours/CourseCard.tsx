@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import CommentContainer from "../CommentContainer";
 import { Course, Doc } from "@/utils/types";
 import { formatDate } from "@/utils/date";
-import { getDocuments } from "@/utils/docs";
+import { getCrouseDocuments } from "@/utils/docs";
 import { Skeleton } from "@/components/ui/skeleton";
 import DocLoading from "@/components/skeletons/DocLoading";
 const Document = React.lazy(() => import("../Document"));
@@ -24,7 +24,7 @@ export default function CourseCard({ course }: { course: Course }) {
   //GET DOCUMENTS
   useEffect(() => {
     const GetDocs = async () => {
-      const Docs = await getDocuments(course.course_id as string);
+      const Docs = await getCrouseDocuments(course.course_id as string);
       setDocs(Docs as Doc[]);
     };
     GetDocs();
