@@ -26,12 +26,9 @@ export default function TdCard() {
         </AccordionTrigger>
         <AccordionContent className=" space-y-3">
           <p>TD for haaaaaaaaaa </p>
+          {/* DOCUMENTS */}
           <p className=" font-semibold">Documents :</p>
-          <div className="flex gap-2 overflow-x-auto">
-            <Document />
-            <Document />
-            <Document />
-          </div>
+          <div className="flex gap-2 overflow-x-auto">docs</div>
           <form action="" className="p-1 flex gap-1 items-center">
             <Input placeholder="add a comment..." />
             <Button>Add</Button>
