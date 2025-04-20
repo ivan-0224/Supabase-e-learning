@@ -1,4 +1,4 @@
-# 🎓 FSEGT Classroom
+# 🎓 FSEGT Classroom [https://fsegtclassroomv2-1.vercel.app/]
 
 Welcome to **FSEGT Classroom** – a modern 💻 e-Learning platform built to empower students and educators with seamless course management and interactive learning tools.
 
