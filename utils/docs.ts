@@ -95,7 +95,7 @@ export const getTdDocuments = async (tdId:string)=>{
 }
 
 
-//FOR THE TABELS
+//FOR THE TABLES
 
 export const getAllCoursesDocuments = async (ClassId:string)=>{
 
