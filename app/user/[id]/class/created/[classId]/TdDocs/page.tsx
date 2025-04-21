@@ -12,7 +12,7 @@ export default async function page({
   //Get td documents
   const docs = await getAllTdDocuments(classId as string);
   return (
-    <div>
+    <div className="p-2">
       <DocTable data={docs as Doc[]} />
     </div>
   );

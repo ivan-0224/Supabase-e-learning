@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import {
   ColumnDef,
@@ -127,13 +126,6 @@ export const columns: ColumnDef<Doc>[] = [
               }
             >
               Copy Doc Name
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              {/* <DeleteStudentBut
-                studentId={doc.doc_id as string}
-                classId={doc.class_id as string}
-              /> */}
-              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
