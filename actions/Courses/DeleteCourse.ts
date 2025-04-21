@@ -10,6 +10,6 @@ export const DeleteCourse = async(state:any, formdata:FormData, CourseId:string)
     if(error){
         return {error:"Error in the server try another time or refresh the page"}
     }
-    return {succes:"Course is deleted Succesfully"}
+    return {succes:"Deleted Succesfully"}
     
 }

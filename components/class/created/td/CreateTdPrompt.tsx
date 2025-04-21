@@ -29,7 +29,7 @@ import { ComputeFileHash } from "@/utils/Files";
 import { Doc } from "@/utils/types";
 
 import { useParams } from "next/navigation";
-import { CreateTd } from "@/actions/Td/CreateTd";
+import { CreateCourse } from "@/actions/Courses/CreateCourse";
 
 export default function CreateTdPrompt() {
   const params = useParams();
@@ -218,7 +218,7 @@ export default function CreateTdPrompt() {
   //CREATE A TD
   const [state, action, pending] = useActionState(
     (state: any, formadata: FormData) =>
-      CreateTd(state, formadata, documents, classId),
+      CreateCourse(state, formadata, documents, classId, "TD"),
     undefined
   );
 
@@ -243,21 +243,25 @@ export default function CreateTdPrompt() {
         </DialogHeader>
         <form action={action} className="flex flex-col gap-2">
           <Label htmlFor="">TD Name 🤔:</Label>
-          <Input placeholder="type your course name" name="tdName" required />
-          {state?.fieldsError?.tdName && (
+          <Input
+            placeholder="type your course name"
+            name="courseName"
+            required
+          />
+          {state?.fieldsError?.courseName && (
             <span className=" text-sm text-red-400 p-1">
-              {state.fieldsError.tdName}
+              {state.fieldsError.courseName}
             </span>
           )}
           <Label htmlFor="">TD Description 📝:</Label>
           <Textarea
             placeholder="type your course Description"
-            name="tdDescp"
+            name="courseDesc"
             required
           />
-          {state?.fieldsError?.tdDescp && (
+          {state?.fieldsError?.courseDesc && (
             <span className=" text-sm text-red-400 p-1">
-              {state.fieldsError.tdDescp}
+              {state.fieldsError.courseDesc}
             </span>
           )}
           <Label>

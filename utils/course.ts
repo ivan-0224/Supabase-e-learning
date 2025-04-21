@@ -25,7 +25,7 @@ export const addCourse = async (course:Course[]) => {
 export const getCourses = async (classId:string)=>{
   const supabase = await createClient()
   //Get Courses
-  const {data} = await supabase.from("course").select("*").eq("class_id", classId).order("created_at",{ascending:false})
+  const {data} = await supabase.from("course").select("*").eq("class_id", classId).eq("course_type","course").order("created_at",{ascending:false})
   if(data){
     return data as Course[]
   }

@@ -9,15 +9,18 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CommentContainer from "../CommentContainer";
+import CommentContainer from "../../CommentContainer";
 import { Course, Doc } from "@/utils/types";
 import { formatDate } from "@/utils/date";
-import { getCrouseDocuments } from "@/utils/docs";
-import { Skeleton } from "@/components/ui/skeleton";
+import { getCourseDocuments } from "@/utils/docs";
+
 import DocLoading from "@/components/skeletons/DocLoading";
-import { DeleteCourse } from "@/actions/Courses/DeleteCourse";
+
 import ConfirmDeleteCourse from "./ConfirmDeleteCourse";
-const Document = React.lazy(() => import("../Document"));
+import { AddComment } from "@/actions/Courses/AddComment";
+import { Send } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+const Document = React.lazy(() => import("../../Document"));
 
 export default function CourseCard({ course }: { course: Course }) {
   const date = new Date(course.created_at as string);
@@ -26,11 +29,18 @@ export default function CourseCard({ course }: { course: Course }) {
   //GET DOCUMENTS
   useEffect(() => {
     const GetDocs = async () => {
-      const Docs = await getCrouseDocuments(course.course_id as string);
+      const Docs = await getCourseDocuments(course.course_id as string);
       setDocs(Docs as Doc[]);
     };
     GetDocs();
   }, []);
+
+  //ADD a comment
+  const [state, action, pending] = useActionState(
+    (state: any, formdata: FormData) =>
+      AddComment(state, formdata, course?.course_id as string),
+    undefined
+  );
 
   return (
     <Accordion
@@ -48,6 +58,8 @@ export default function CourseCard({ course }: { course: Course }) {
           </div>
         </AccordionTrigger>
         <AccordionContent className=" space-y-3">
+          <Separator />
+
           <p className="text-lg">{course.course_descriptions} </p>
           <p className=" font-semibold text-xl">Documents :</p>
           {docs.length === 0 && (
@@ -67,13 +79,27 @@ export default function CourseCard({ course }: { course: Course }) {
               <DocLoading />
             )}
           </div>
-
-          <form action="" className="p-1 flex gap-1 items-center">
-            <Input placeholder="add a comment..." />
-            <Button>Add</Button>
+          {/* ADD COMMENT */}
+          <form
+            action={action}
+            className="p-1 flex-col flex gap-1 items-center"
+          >
+            <div className="flex w-full gap-2">
+              <Input placeholder="add a comment..." name="comment" required />
+              <Button
+                className=" cursor-pointer hover:scale-105 focus:scale-95"
+                disabled={pending}
+              >
+                <Send />
+              </Button>
+            </div>
+            {state?.error && (
+              <span className="text-sm text-red-400">{state.error}</span>
+            )}
           </form>
+          <Separator />
           <p className="font-semibold">comments:</p>
-          <CommentContainer />
+          <CommentContainer courseId={course.course_id as string} />
           <ConfirmDeleteCourse courseId={course.course_id as string} />
         </AccordionContent>
       </AccordionItem>

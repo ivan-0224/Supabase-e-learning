@@ -3,7 +3,7 @@
 import { addCourse } from "@/utils/course";
 import { addDocument, findDocByHashCode } from "@/utils/docs";
 import { createClient } from "@/utils/supabase/server";
-import { Course, Doc } from "@/utils/types";
+import {  Doc } from "@/utils/types";
 import { z } from "zod";
 
 
@@ -17,7 +17,7 @@ const CourseSchema = z.object(
 
 
 
-export const CreateCourse = async(state:any , formdata:FormData, files:Doc[], classID:string)=>{
+export const CreateCourse = async(state:any , formdata:FormData, files:Doc[], classID:string,CourseType?:string|null|undefined)=>{
   const supabase = await createClient();
 
   const courseName = formdata.get('courseName') as string
@@ -33,7 +33,7 @@ export const CreateCourse = async(state:any , formdata:FormData, files:Doc[], cl
   }
 
   // FIRST : WE ADD THE COURSE
-  const AddCourse= await addCourse([{class_id:classID,course_name:courseName, course_descriptions:courseDesc}])
+  const AddCourse= await addCourse([{class_id:classID,course_name:courseName, course_descriptions:courseDesc, course_type:CourseType}])
 
 
   if(AddCourse){
@@ -80,7 +80,10 @@ export const CreateCourse = async(state:any , formdata:FormData, files:Doc[], cl
       }
     })
   }
+  if(CourseType === "TD"){
+    return {success:"TD Created Succefully !"}
 
-  return {success:"Class Created Succefully !"}
+  }
+  return {success:"Course Created Succefully !"}
 }
 

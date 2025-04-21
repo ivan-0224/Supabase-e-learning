@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -9,28 +9,36 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CommentContainer from "../CommentContainer";
-import { Doc, TD } from "@/utils/types";
+import CommentContainer from "../../CommentContainer";
+import { Course, Doc } from "@/utils/types";
 import { formatDate } from "@/utils/date";
-import { getDocument, getTdDocuments } from "@/utils/docs";
+import { getCourseDocuments } from "@/utils/docs";
 import DocLoading from "@/components/skeletons/DocLoading";
 import ConfirmDeleteTd from "./ConfirmDeleteTd";
+import { AddComment } from "@/actions/Courses/AddComment";
+import { Send } from "lucide-react";
 
-const Document = React.lazy(() => import("../Document"));
+const Document = React.lazy(() => import("../../Document"));
 
-export default function TdCard({ td }: { td: TD }) {
+export default function TdCard({ td }: { td: Course }) {
   const date = new Date(td.created_at as string);
   const DATE = formatDate(date);
   const [docs, setDocs] = useState<Doc[]>([]);
   //GET DOCUMENTS
   useEffect(() => {
     const GetDocs = async () => {
-      const Docs = await getTdDocuments(td.td_id as string);
+      const Docs = await getCourseDocuments(td.course_id as string);
       setDocs(Docs as Doc[]);
     };
     GetDocs();
   }, []);
 
+  //ADD a comment
+  const [state, action, pending] = useActionState(
+    (state: any, formdata: FormData) =>
+      AddComment(state, formdata, td?.course_id as string),
+    undefined
+  );
   return (
     <Accordion
       type="single"
@@ -41,13 +49,13 @@ export default function TdCard({ td }: { td: TD }) {
         <AccordionTrigger className=" cursor-pointer">
           <div className="flex flex-col">
             <span className="font-semibold text-lg capitalize">
-              {td?.td_name}
+              {td?.course_name}
             </span>
             <span className="text-gray-500">Created at : {DATE} </span>
           </div>
         </AccordionTrigger>
         <AccordionContent className=" space-y-3">
-          <p className="text-lg">{td?.td_description} </p>
+          <p className="text-lg">{td?.course_descriptions} </p>
           {/* DOCUMENTS */}
           <p className="font-semibold text-xl">Documents :</p>
           {docs.length === 0 && (
@@ -67,13 +75,27 @@ export default function TdCard({ td }: { td: TD }) {
             )}
           </div>
 
-          <form action="" className="p-1 flex gap-1 items-center">
-            <Input placeholder="add a comment..." />
-            <Button>Add</Button>
+          {/* ADD COMMENT */}
+          <form
+            action={action}
+            className="p-1 flex-col flex gap-1 items-center"
+          >
+            <div className="flex w-full gap-2">
+              <Input placeholder="add a comment..." name="comment" required />
+              <Button
+                className=" cursor-pointer hover:scale-105 focus:scale-95"
+                disabled={pending}
+              >
+                <Send />
+              </Button>
+            </div>
+            {state?.error && (
+              <span className="text-sm text-red-400">{state.error}</span>
+            )}
           </form>
           <p className="font-semibold">comments:</p>
-          <CommentContainer />
-          <ConfirmDeleteTd tdId={td.td_id as string} />
+          <CommentContainer courseId={td.course_id as string} />
+          <ConfirmDeleteTd tdId={td.course_id as string} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

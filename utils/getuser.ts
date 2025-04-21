@@ -7,3 +7,5 @@ export const GetUser = async ()=>{
 
     return data.user
 }
+
+

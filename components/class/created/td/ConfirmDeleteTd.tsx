@@ -15,11 +15,10 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 import { DeleteCourse } from "@/actions/Courses/DeleteCourse";
-import { DeleteTd } from "@/actions/Td/DeleteTd";
 
 export default function ConfirmDeleteTd({ tdId }: { tdId: string }) {
   const [state, formAction, pending] = useActionState(
-    (state: any, formData: FormData) => DeleteTd(state, formData, tdId),
+    (state: any, formData: FormData) => DeleteCourse(state, formData, tdId),
     undefined
   );
   useEffect(() => {

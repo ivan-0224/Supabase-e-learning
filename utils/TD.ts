@@ -1,29 +1,29 @@
 "use server"
 
 import { createClient } from "./supabase/server";
-import { TD } from "./types";
+import { Course } from "./types";
 
 
 
-export const addTD = async (td:TD[]) => {
+export const addTD = async (td:Course[]) => {
  
   const supabase = await createClient();
-  const {data,error} = await supabase.from("TD").insert(td).select()
+  const {data,error} = await supabase.from("course").insert(td).select()
 
   if(error){
     throw(error)
   }
   if(data){
-    return data as TD[]
+    return data as Course[]
   }
 }
 
 export const getTDs = async (classId:string)=>{
   const supabase = await createClient()
   //Get td
-  const {data} = await supabase.from("TD").select("*").eq("class_id", classId).order("created_at",{ascending:false})
+  const {data} = await supabase.from("course").select("*").eq("class_id", classId).eq("course_type", "TD").order("created_at",{ascending:false})
   if(data){
-    return data as TD[]
+    return data as Course[]
   }
   return null
 }

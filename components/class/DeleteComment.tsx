@@ -13,15 +13,14 @@ import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
-import { DeleteCourse } from "@/actions/Courses/DeleteCourse";
 
-export default function ConfirmDeleteCourse({
-  courseId,
-}: {
-  courseId: string;
-}) {
+import { Trash } from "lucide-react";
+import { deleteComment } from "@/actions/Courses/deleteComment";
+
+export default function DeleteComment({ CommentId }: { CommentId: string }) {
   const [state, formAction, pending] = useActionState(
-    (state: any, formData: FormData) => DeleteCourse(state, formData, courseId),
+    (state: any, formData: FormData) =>
+      deleteComment(state, formData, CommentId),
     undefined
   );
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function ConfirmDeleteCourse({
         style: { background: "red", color: "#fff", border: "none" },
       });
     } else if (state?.succes) {
-      window.location.reload();
       toast.success(state.succes, {
         duration: 3000, // Display duration in ms
         position: "top-center", // Position of the toast
@@ -43,15 +41,14 @@ export default function ConfirmDeleteCourse({
 
   return (
     <Dialog>
-      <DialogTrigger className="w-full bg-white outline  text-black p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-400/90 dark:text-white dark:bg-red-400 hover:outline-none hover:text-white transition-all">
-        Delete Course
+      <DialogTrigger className="outline p-2 hover:opacity-70 rounded-md cursor-pointer hover:scale-105 focus:scale-95 mr-2.5">
+        <Trash className=" size-4" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure ⁉️ </DialogTitle>
           <DialogDescription>
-            This will permanently delete your course from this class and remove
-            his data from our server.
+            This will permanently delete your comment.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

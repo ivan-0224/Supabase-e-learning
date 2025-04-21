@@ -35,6 +35,8 @@ export interface Course{
   class_id? :string|undefined|null;
   course_name? :string|undefined|null;
   course_descriptions? :string|undefined|null;
+  course_type? :string|undefined|null;
+
 }
 
 export interface CourseDoc{
@@ -44,18 +46,13 @@ export interface CourseDoc{
   doc_id? :string|undefined|null;
 }
 
-export interface TD{
-  td_id? :string|undefined|null;
+export interface Comment{
+  comment_id? :string|undefined|null;
   created_at? :string|undefined|null;
-  class_id? :string|undefined|null;
-  td_name? :string|undefined|null;
-  td_description? :string|undefined|null;
+  comment_owner? :string|undefined|null;
+  user_name? :string|undefined|null;
+  context? :string|undefined|null;
+  course_id? :string|undefined|null;
+  comment_img? :string|undefined|null;
 }
 
-
-export interface TdDoc{
-  td_doc_id? :string|undefined|null;
-  created_at? :string|undefined|null;
-  td_id? :string|undefined|null;
-  doc_id? :string|undefined|null;
-}

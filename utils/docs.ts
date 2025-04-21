@@ -4,7 +4,7 @@
 import { getCourses } from "./course";
 import { createClient } from "./supabase/server"
 import { getTDs } from "./TD";
-import { Course, CourseDoc, Doc, TD, TdDoc } from "./types";
+import { Course, CourseDoc, Doc } from "./types";
 
 export const findDocByHashCode = async (code:string)=>{
     const supabase = await createClient();
@@ -50,33 +50,12 @@ export const getDocument = async (docId:string)=>{
 }
 
 
-export const getCrouseDocuments = async (courseId:string)=>{
+export const getCourseDocuments = async (courseId:string)=>{
     const supabase = await createClient();
     const {data, error} = await supabase.from("CourseDocument").select("*").eq("course_id", courseId).order("created_at", {ascending:false})
 
     if(data){
         const courseDocs = data as CourseDoc[]
-        const Docs = await Promise.all( courseDocs.map(async (courseDoc)=>{
-            const docId = courseDoc.doc_id as string
-            const doc = await getDocument(docId)
-            if(doc){
-                return doc
-            }
-        }))
-        if(Docs){
-            return Docs as Doc[]
-        }
-    }
-
-}
-
-
-export const getTdDocuments = async (tdId:string)=>{
-    const supabase = await createClient();
-    const {data, error} = await supabase.from("TdDocument").select("*").eq("td_id", tdId).order("created_at", {ascending:false})
-
-    if(data){
-        const courseDocs = data as TdDoc[]
         const Docs = await Promise.all( courseDocs.map(async (courseDoc)=>{
             const docId = courseDoc.doc_id as string
             const doc = await getDocument(docId)
@@ -95,6 +74,8 @@ export const getTdDocuments = async (tdId:string)=>{
 }
 
 
+
+
 //FOR THE TABLES
 
 export const getAllCoursesDocuments = async (ClassId:string)=>{
@@ -107,7 +88,7 @@ export const getAllCoursesDocuments = async (ClassId:string)=>{
         const docs = await Promise.all(CoursesIds?.map(async(course)=>{
             const CourseId = course.course_id as string
             //Now get all the document for the course
-            const Docs = await getCrouseDocuments(CourseId) 
+            const Docs = await getCourseDocuments(CourseId) 
             return Docs
 
     }))
@@ -122,13 +103,13 @@ export const getAllCoursesDocuments = async (ClassId:string)=>{
 export const getAllTdDocuments = async (ClassId:string)=>{
 
     //Get all TD Ids
-    const TdIds:TD[]|undefined|null = await getTDs(ClassId)
+    const TdIds:Course[]|undefined|null = await getTDs(ClassId)
 
     if(TdIds){
         const docs = await Promise.all(TdIds?.map(async(td)=>{
-            const tdId = td.td_id as string
+            const tdId = td.course_id as string
             //Now get all the document for the course
-            const Docs = await getTdDocuments(tdId) 
+            const Docs = await getCourseDocuments(tdId) 
             return Docs
     }))
 

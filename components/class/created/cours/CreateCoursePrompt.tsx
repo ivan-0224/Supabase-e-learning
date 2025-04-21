@@ -217,7 +217,7 @@ export default function CreateCoursePrompt() {
   //CREATE A COURSE
   const [state, action, pending] = useActionState(
     (state: any, formadata: FormData) =>
-      CreateCourse(state, formadata, documents, classId),
+      CreateCourse(state, formadata, documents, classId, "course"),
     undefined
   );
 
