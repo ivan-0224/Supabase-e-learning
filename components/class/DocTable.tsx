@@ -13,7 +13,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  FileIcon,
+  MoreHorizontal,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -35,45 +40,68 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Student } from "@/utils/types";
+import { Doc } from "@/utils/types";
 import { AvatarIcon } from "../AvatarIcon";
 import DeleteStudentBut from "./created/students/DeleteStudentBut";
+import { isImageFilename } from "@/utils/utils";
+import Link from "next/link";
+import { formatDate } from "@/utils/date";
 
-export const columns: ColumnDef<Student>[] = [
+export const columns: ColumnDef<Doc>[] = [
   {
-    accessorKey: "studentImg",
+    accessorKey: "Img",
     header: "Img",
-    cell: ({ row }) => <AvatarIcon img={row.getValue("studentImg")} />,
+    cell: ({ row }) =>
+      isImageFilename(row.getValue("doc_url") as string) ? (
+        <AvatarIcon img={row.getValue("doc_url") as string} />
+      ) : (
+        <FileIcon />
+      ),
   },
   {
-    accessorKey: "student_name",
-    header: "student Name",
+    accessorKey: "doc_name",
+    header: "Document Name",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("student_name")}</div>
+      <div className="capitalize">{row.getValue("doc_name")}</div>
     ),
   },
   {
-    accessorKey: "student_mail",
+    accessorKey: "created_at",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className=" cursor-pointer"
         >
-          Email
+          created_at
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("student_mail")}</div>
+      <div className="lowercase">
+        {formatDate(new Date(row.getValue("created_at")))}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "doc_url",
+    header: "Doc url",
+    cell: ({ row }) => (
+      <div className="capitalize text-wrap overflow-hidden w-[200px] underline">
+        <Link href={row.getValue("doc_url")} target="_blank">
+          {" "}
+          {row.getValue("doc_url")}
+        </Link>
+      </div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const student = row.original;
+      const doc = row.original;
 
       return (
         <DropdownMenu>
@@ -88,23 +116,24 @@ export const columns: ColumnDef<Student>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(student.student_mail as string)
+                navigator.clipboard.writeText(doc.doc_url as string)
               }
             >
-              Copy Email
+              Copy Doc Url
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(student.student_name as string)
+                navigator.clipboard.writeText(doc.doc_name as string)
               }
             >
-              Copy Student Name
+              Copy Doc Name
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <DeleteStudentBut
-                studentId={student.student_id as string}
-                classId={student.class_id as string}
-              />
+              {/* <DeleteStudentBut
+                studentId={doc.doc_id as string}
+                classId={doc.class_id as string}
+              /> */}
+              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -113,7 +142,7 @@ export const columns: ColumnDef<Student>[] = [
   },
 ];
 
-export function StudentTable({ data }: { data: Student[] }) {
+export function DocTable({ data }: { data: Doc[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -145,12 +174,12 @@ export function StudentTable({ data }: { data: Student[] }) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filter Documents..."
           value={
-            (table.getColumn("student_mail")?.getFilterValue() as string) ?? ""
+            (table.getColumn("doc_name")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("student_mail")?.setFilterValue(event.target.value)
+            table.getColumn("doc_name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

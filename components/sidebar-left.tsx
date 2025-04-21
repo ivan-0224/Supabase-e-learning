@@ -5,6 +5,12 @@ import {
   Blocks,
   Calendar,
   Command,
+  File,
+  FileIcon,
+  Files,
+  FileSearch,
+  FileSearch2Icon,
+  FilesIcon,
   Home,
   Inbox,
   LogOutIcon,
@@ -70,6 +76,24 @@ export function SidebarLeft({
         icon: Home,
         isActive: ActiveLink(
           `/user/${User?.id}/class/created/${CLass.class_id}`
+        ),
+      },
+      {
+        title: "Course Documents",
+        url: `/user/${User?.id}/class/created/${CLass.class_id}/courseDocs/`,
+        icon: FileSearch2Icon,
+        badge: "10",
+        isActive: ActiveLink(
+          `/user/${User?.id}/class/created/${CLass.class_id}/courseDocs`
+        ),
+      },
+      {
+        title: "TD Documents",
+        url: `/user/${User?.id}/class/created/${CLass.class_id}/TdDocs/`,
+        icon: FileSearch,
+        badge: "10",
+        isActive: ActiveLink(
+          `/user/${User?.id}/class/created/${CLass.class_id}/TdDocs`
         ),
       },
       {

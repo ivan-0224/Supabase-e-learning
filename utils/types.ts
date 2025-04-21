@@ -25,6 +25,8 @@ export interface Doc{
   doc_name? :string|undefined|null;
   doc_url? :string|null;
   hash_value? :string|undefined|null;
+  Img? :string|undefined|null;
+
 }
 
 export interface Course{

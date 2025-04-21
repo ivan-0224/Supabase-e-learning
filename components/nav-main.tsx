@@ -8,6 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import TextHover from "./animations/TextHover";
 
 export function NavMain({
   items,

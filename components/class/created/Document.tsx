@@ -11,39 +11,8 @@ import { FileText } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { formatDate } from "@/utils/date";
+import { isImageFilename } from "@/utils/utils";
 
-function isImageFilename(filename: string) {
-  const imageExtensions = [
-    "jpg",
-    "jpeg",
-    "jfif",
-    "pjpeg",
-    "pjp",
-    "png",
-    "gif",
-    "jp2",
-    "j2k",
-    "jpf",
-    "jpx",
-    "jpm",
-    "mj2",
-    "webp",
-    "apng",
-    "avif",
-    "svg",
-    "svgz",
-    "bmp",
-    "ico",
-    "cur",
-    "tif",
-    "tiff",
-    "heif",
-    "heic",
-    "jxl",
-  ];
-  const lower = filename.toLowerCase();
-  return imageExtensions.some((ext) => lower.endsWith(`.${ext}`));
-}
 export default function Document({ document }: { document: Doc }) {
   const date = new Date(document?.created_at as string);
   const DATE = formatDate(date);

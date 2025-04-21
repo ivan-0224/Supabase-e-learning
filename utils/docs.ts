@@ -1,7 +1,10 @@
+
 "use server"
 
+import { getCourses } from "./course";
 import { createClient } from "./supabase/server"
-import { CourseDoc, Doc, TdDoc } from "./types";
+import { getTDs } from "./TD";
+import { Course, CourseDoc, Doc, TD, TdDoc } from "./types";
 
 export const findDocByHashCode = async (code:string)=>{
     const supabase = await createClient();
@@ -89,4 +92,50 @@ export const getTdDocuments = async (tdId:string)=>{
         throw error
     }
 
+}
+
+
+//FOR THE TABELS
+
+export const getAllCoursesDocuments = async (ClassId:string)=>{
+
+    //Get all courses Ids
+    const CoursesIds:Course[]|undefined|null = await getCourses(ClassId)
+
+
+    if(CoursesIds){
+        const docs = await Promise.all(CoursesIds?.map(async(course)=>{
+            const CourseId = course.course_id as string
+            //Now get all the document for the course
+            const Docs = await getCrouseDocuments(CourseId) 
+            return Docs
+
+    }))
+    if(docs){       
+        //To transform docs to 1D table 
+        return docs.flat() 
+    }
+    }
+    return []
+}
+
+export const getAllTdDocuments = async (ClassId:string)=>{
+
+    //Get all TD Ids
+    const TdIds:TD[]|undefined|null = await getTDs(ClassId)
+
+    if(TdIds){
+        const docs = await Promise.all(TdIds?.map(async(td)=>{
+            const tdId = td.td_id as string
+            //Now get all the document for the course
+            const Docs = await getTdDocuments(tdId) 
+            return Docs
+    }))
+
+    if(docs){       
+        //To transform docs to 1D table 
+        return docs.flat() 
+    }
+    }
+    return []
 }
