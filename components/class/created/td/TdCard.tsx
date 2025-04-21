@@ -17,6 +17,7 @@ import DocLoading from "@/components/skeletons/DocLoading";
 import ConfirmDeleteTd from "./ConfirmDeleteTd";
 import { AddComment } from "@/actions/Courses/AddComment";
 import { Send } from "lucide-react";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const Document = React.lazy(() => import("../../Document"));
 
@@ -55,6 +56,8 @@ export default function TdCard({ td }: { td: Course }) {
           </div>
         </AccordionTrigger>
         <AccordionContent className=" space-y-3">
+          <Separator />
+
           <p className="text-lg">{td?.course_descriptions} </p>
           {/* DOCUMENTS */}
           <p className="font-semibold text-xl">Documents :</p>
@@ -93,6 +96,7 @@ export default function TdCard({ td }: { td: Course }) {
               <span className="text-sm text-red-400">{state.error}</span>
             )}
           </form>
+          <Separator />
           <p className="font-semibold">comments:</p>
           <CommentContainer courseId={td.course_id as string} />
           <ConfirmDeleteTd tdId={td.course_id as string} />
