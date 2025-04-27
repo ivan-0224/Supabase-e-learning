@@ -10,7 +10,7 @@ import { z } from "zod";
 const CourseSchema = z.object(
   {
     courseName: z.string().min(3).trim(),
-    courseDesc: z.string().max(30).trim()  
+    courseDesc: z.string().max(100).trim()  
   }
 )
 
