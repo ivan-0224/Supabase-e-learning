@@ -13,6 +13,8 @@ export default async function page({
   const docs = await getAllTdDocuments(classId as string);
   return (
     <div className="p-2">
+      <p>TDs Documents</p>
+
       <DocTable data={docs as Doc[]} />
     </div>
   );

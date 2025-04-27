@@ -13,6 +13,7 @@ export default async function page({
   const docs = await getAllCoursesDocuments(classId);
   return (
     <div className="p-2">
+      <p>Courses Documents</p>
       <DocTable data={docs as Doc[]} />
     </div>
   );

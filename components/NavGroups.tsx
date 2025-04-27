@@ -43,7 +43,7 @@ export function NavGroups({
               <SidebarMenuItem>
                 <TextHover text={group.name} key={group.name}>
                   <SidebarMenuButton asChild>
-                    <Link href="#">
+                    <Link href={group.pages[0].url}>
                       <span>{group.emoji}</span>
                       <span>{group.name}</span>
                     </Link>
