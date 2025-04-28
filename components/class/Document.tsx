@@ -20,7 +20,7 @@ export default function Document({ document }: { document: Doc }) {
     <ContextMenu>
       <ContextMenuTrigger>
         <Link target="_blank" href={document?.doc_url as string}>
-          <div className=" cursor-pointer hover:scale-100 group-hover:scale-95 transition-all flex items-center border sm:p-2 rounded-lg dark:hover:bg-black/30 hover:shadow-lg  w-full">
+          <div className=" cursor-pointer hover:scale-100 group-hover:scale-99  group-hover:opacity-75 hover:opacity-100 transition-all flex items-center border sm:p-2 rounded-lg dark:hover:bg-black/30 hover:shadow-lg  w-full">
             <div className="lg:w-auto flex items-center ">
               {(document?.doc_url as string) &&
               isImageFilename(document.doc_url as string) ? (
@@ -29,7 +29,7 @@ export default function Document({ document }: { document: Doc }) {
                   alt="img"
                   width={100}
                   height={100}
-                  className="lg:w-auto rounded-l-lg"
+                  className="lg:w-auto  rounded-l-lg"
                 />
               ) : (
                 <div className="p-2">

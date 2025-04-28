@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/accordion";
 import { Course } from "@/utils/types";
 import { formatDate } from "@/utils/date";
+import StudentSubCard from "./StudentSubCard";
+import { Input } from "@/components/ui/input";
 
 export default function SubmissionCard({ Td }: { Td: Course }) {
   return (
@@ -28,8 +30,14 @@ export default function SubmissionCard({ Td }: { Td: Course }) {
         <AccordionContent className=" space-y-2">
           <p className="p-1">{Td.course_descriptions}</p>
           <DonutChart />
-          <div className="p-2">
+          <div className="p-2 space-y-3">
             <p className=" underline ">Students Submissions :</p>
+            <Input placeholder="search by student name..." />
+            <div className="space-y-2.5 group">
+              <StudentSubCard tdsubId="test" />
+              <StudentSubCard tdsubId="test" />
+              <StudentSubCard tdsubId="tes" />
+            </div>
           </div>
         </AccordionContent>
       </AccordionItem>
