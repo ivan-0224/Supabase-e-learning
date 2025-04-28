@@ -13,7 +13,7 @@ export default async function page({
   const Tds = await getTDs(classId);
 
   return (
-    <div className="p-3 space-y-2">
+    <div className="p-3 space-y-2 ">
       <p>TD submissions</p>
       {Tds?.length === 0 && (
         <p className="text-center text-gray-500">There is no TD for now ☹️</p>
