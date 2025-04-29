@@ -10,8 +10,15 @@ import { Course } from "@/utils/types";
 import { formatDate } from "@/utils/date";
 import StudentSubCard from "./StudentSubCard";
 import { Input } from "@/components/ui/input";
+import GroupSubCard from "./GroupSubCard";
 
-export default function SubmissionCard({ Td }: { Td: Course }) {
+export default function SubmissionCard({
+  Td,
+  tdType = "alone",
+}: {
+  Td: Course;
+  tdType?: string;
+}) {
   return (
     <Accordion
       type="single"
@@ -31,13 +38,31 @@ export default function SubmissionCard({ Td }: { Td: Course }) {
           <p className="p-1">{Td.course_descriptions}</p>
           <DonutChart />
           <div className="p-2 space-y-3">
-            <p className=" underline ">Students Submissions :</p>
-            <Input placeholder="search by student name..." />
-            <div className="space-y-2.5 group">
-              <StudentSubCard tdsubId="test" />
-              <StudentSubCard tdsubId="test" />
-              <StudentSubCard tdsubId="tes" />
-            </div>
+            {tdType === "alone" ? (
+              <p className=" underline ">Students Submissions :</p>
+            ) : (
+              <p className=" underline ">Group Submissions :</p>
+            )}
+
+            {tdType === "alone" ? (
+              <>
+                <Input placeholder="search by student name..." />
+                <div className="space-y-2.5 group">
+                  <StudentSubCard tdsubId="test" />
+                  <StudentSubCard tdsubId="test" />
+                  <StudentSubCard tdsubId="tes" />
+                </div>
+              </>
+            ) : (
+              <>
+                <Input placeholder="search by group name..." />
+                <div className="space-y-2.5 group">
+                  <GroupSubCard tdsubId="tes" />
+                  <GroupSubCard tdsubId="tes" />
+                  <GroupSubCard tdsubId="tes" />
+                </div>
+              </>
+            )}
           </div>
         </AccordionContent>
       </AccordionItem>

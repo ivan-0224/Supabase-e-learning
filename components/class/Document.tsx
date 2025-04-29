@@ -23,7 +23,7 @@ export default function Document({ document }: { document: Doc }) {
           <div className=" cursor-pointer hover:scale-100 group-hover:scale-99  group-hover:opacity-75 hover:opacity-100 transition-all flex items-center border sm:p-2 rounded-lg dark:hover:bg-black/30 hover:shadow-lg  w-full">
             <div className="lg:w-auto flex items-center ">
               {(document?.doc_url as string) &&
-              isImageFilename(document.doc_url as string) ? (
+              isImageFilename(document?.doc_url as string) ? (
                 <Image
                   src={document?.doc_url as string}
                   alt="img"
