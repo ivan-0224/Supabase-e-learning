@@ -27,7 +27,7 @@ export default function ClassJoinedCard({ Class }: { Class: Class }) {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  console.log(Teacher);
+
   //GET TEACHER INFORMATION
   useEffect(() => {
     const getTeacher = async () => {

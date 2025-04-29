@@ -30,7 +30,7 @@ export default function ClassJoinprompt() {
         position: "top-center",
         style: { backgroundColor: "#4CAF50", color: "white" },
       });
-      //REDIRECT THE USER TO HIS CLASS
+      window.location.reload();
     } else if (state?.TeacherWarent) {
       toast.warning(state.TeacherWarent, {
         position: "top-center",

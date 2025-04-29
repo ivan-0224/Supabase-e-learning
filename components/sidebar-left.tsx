@@ -46,10 +46,17 @@ import { Class } from "@/utils/types";
 import { formatDate } from "@/utils/date";
 
 export function SidebarLeft({
+  classType,
   CLass,
   User,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { CLass: Class; User: User | null }) {
+}: React.ComponentProps<typeof Sidebar> & {
+  classType?: string;
+  CLass: Class;
+  User: User | null;
+}) {
+  const ClassType = classType === "td" ? "joined" : "created";
+
   const USER = {
     name: User?.user_metadata.full_name as string,
     email: User?.email as string,
@@ -59,59 +66,58 @@ export function SidebarLeft({
   // Function to check if a link is active
   const ActiveLink = (href: string) => pathname === href;
   //GET GROUPS
-
   const data = {
     navMain: [
       {
         title: "Ask AI",
-        url: `/user/${User?.id}/class/created/${CLass.class_id}/ai/`,
+        url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/ai/`,
         icon: Sparkles,
         isActive: ActiveLink(
-          `/user/${User?.id}/class/created/${CLass.class_id}/ai`
+          `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/ai`
         ),
       },
       {
         title: "Home",
-        url: `/user/${User?.id}/class/created/${CLass.class_id}/`,
+        url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/`,
         icon: Home,
         isActive: ActiveLink(
-          `/user/${User?.id}/class/created/${CLass.class_id}`
+          `/user/${User?.id}/class/${ClassType}/${CLass.class_id}`
         ),
       },
       {
         title: "Course Documents",
-        url: `/user/${User?.id}/class/created/${CLass.class_id}/courseDocs/`,
+        url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/courseDocs/`,
         icon: FileSearch2Icon,
         badge: "10",
         isActive: ActiveLink(
-          `/user/${User?.id}/class/created/${CLass.class_id}/courseDocs`
+          `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/courseDocs`
         ),
       },
       {
         title: "TD Documents",
-        url: `/user/${User?.id}/class/created/${CLass.class_id}/TdDocs/`,
+        url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/TdDocs/`,
         icon: FileSearch,
         badge: "10",
         isActive: ActiveLink(
-          `/user/${User?.id}/class/created/${CLass.class_id}/TdDocs`
+          `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/TdDocs`
         ),
       },
       {
         title: "Meet",
-        url: `/user/${User?.id}/class/created/${CLass.class_id}/meet/`,
+        url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/meet/`,
         icon: Video,
         badge: "10",
         isActive: ActiveLink(
-          `/user/${User?.id}/class/created/${CLass.class_id}/meet`
+          `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/meet`
         ),
       },
       {
         title: "students",
-        url: `/user/${User?.id}/class/created/${CLass.class_id}/students/`,
+        url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/students/`,
         icon: Users,
         badge: "10",
         isActive: ActiveLink(
-          `/user/${User?.id}/class/created/${CLass.class_id}/students`
+          `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/students`
         ),
       },
     ],
@@ -122,17 +128,17 @@ export function SidebarLeft({
         pages: [
           {
             name: "Td Submissions",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group1/td`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group1/td`,
             emoji: "📔",
           },
           {
             name: "Td submissions by grp",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group1/tdbgroup`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group1/tdbgroup`,
             emoji: "🤝",
           },
           {
             name: "Notes",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group1/notes`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group1/notes`,
             emoji: "🌟",
           },
         ],
@@ -143,17 +149,17 @@ export function SidebarLeft({
         pages: [
           {
             name: "Td Submissions",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group2/td`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group2/td`,
             emoji: "📔",
           },
           {
             name: "Td submissions by grp",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group2/tdbgroup`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group2/tdbgroup`,
             emoji: "🤝",
           },
           {
             name: "Notes",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group2/notes`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group2/notes`,
             emoji: "🌟",
           },
         ],
@@ -164,17 +170,17 @@ export function SidebarLeft({
         pages: [
           {
             name: "Td Submissions",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group3/td`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group3/td`,
             emoji: "📔",
           },
           {
             name: "Td submissions by grp",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group3/tdbgroup`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group3/tdbgroup`,
             emoji: "🤝",
           },
           {
             name: "Notes",
-            url: `/user/${User?.id}/class/created/${CLass.class_id}/group3/notes`,
+            url: `/user/${User?.id}/class/${ClassType}/${CLass.class_id}/group3/notes`,
             emoji: "🌟",
           },
         ],
