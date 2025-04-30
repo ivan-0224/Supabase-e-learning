@@ -15,6 +15,15 @@ import { LogIn } from "lucide-react";
 import { JoinClass } from "@/actions/JoinClass";
 import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ClassJoinprompt() {
   const [state, action, pending] = useActionState(JoinClass, undefined);
@@ -73,8 +82,78 @@ export default function ClassJoinprompt() {
               </span>
             )}
           </div>
-
-          <Button className=" w-full bg-blue-400 cursor-pointer">
+          <Label>Choose a group 🏫 :</Label>
+          <Select required name="groupe">
+            <SelectTrigger className="w-[180px] ">
+              <SelectValue placeholder="choose a group" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup aria-required>
+                <SelectLabel>Groups</SelectLabel>
+                <SelectItem
+                  value="1"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 1
+                </SelectItem>
+                <SelectItem
+                  value="2"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 2
+                </SelectItem>
+                <SelectItem
+                  value="3"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 3
+                </SelectItem>
+                <SelectItem
+                  value="4"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 4
+                </SelectItem>
+                <SelectItem
+                  value="5"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 5
+                </SelectItem>
+                <SelectItem
+                  value="6"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 6
+                </SelectItem>
+                <SelectItem
+                  value="7"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 7
+                </SelectItem>
+                <SelectItem
+                  value="8"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 8
+                </SelectItem>
+                <SelectItem
+                  value="9"
+                  className=" cursor-pointer transition-all hover:border"
+                >
+                  Group 9
+                </SelectItem>
+                <SelectItem
+                  value="10"
+                  className=" cursor-pointer transition-all  hover:border"
+                >
+                  Group 10
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Button className=" w-full bg-blue-400 cursor-pointer text-white hover:text-black">
             {pending ? <ClipLoader size={17} color="white" /> : "Join"}
           </Button>
         </form>

@@ -3,8 +3,10 @@
 
 import { FindClassById, getClassById } from "@/utils/getclass";
 import { GetUser } from "@/utils/getuser";
+import { createGroup, CreateStudentGroup, findGroupByNum } from "@/utils/group";
 import { AddStudent } from "@/utils/student";
 import { createClient } from "@/utils/supabase/server"
+import { Group } from "@/utils/types";
 import {  z } from "zod";
 
 //Zod schema to check the input value
@@ -17,6 +19,10 @@ export const JoinClass = async(state:any, formData:FormData)=>{
     //CLass code
     const class_id = formData.get("classCode") as string
     
+    //Class groupe
+    const groupe_num = formData.get("groupe") as string
+
+
     //Check the validation of the field
     const ValidClassCode = SchemaClassCode.safeParse(class_id)
 
@@ -52,9 +58,26 @@ export const JoinClass = async(state:any, formData:FormData)=>{
             if(error){
                 return {JoinError:"You Joined this class Before"}
             }else{
+                //Add the student to the selected group
+                // first we need to create the group if it does not exist 
+                const group = await findGroupByNum(class_id, groupe_num)
+                if(!group){
+                    //Create the group
+                    const created_group = await createGroup(class_id, groupe_num)
+                    //add the user to the student group table
+                    const created_student_group = await CreateStudentGroup(user?.id as string,created_group?.group_id as string)
 
-                return {succes:"You Joined the class Succefully !"}
-                
+                    if(!created_student_group){
+                        return {succes:"You Joined the class Succefully !"}
+                    }
+
+                }
+                 //add the user to the student group table
+                 const created_student_group = await CreateStudentGroup(user?.id as string,group?.group_id as string)
+                 if(!created_student_group){
+                    return {succes:"You Joined the class Succefully !"}
+
+                 }
             }
         }
     }

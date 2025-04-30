@@ -56,3 +56,16 @@ export interface Comment{
   comment_img? :string|undefined|null;
 }
 
+export interface Group{
+  group_id? :string|undefined|null;
+  created_at? :string|undefined|null;
+  group_num? :string|undefined|null;
+  class_id? :string|undefined|null;
+}
+
+export interface StudentGroup{
+  studentg_id? :string|undefined|null;
+  created_at? :string|undefined|null;
+  student_id? :string|undefined|null;
+  group_id? :string|undefined|null;
+}

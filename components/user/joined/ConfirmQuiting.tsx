@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Quitclass } from "@/actions/QuitClass";
 import { toast } from "sonner";
+import { ClipLoader } from "react-spinners";
 
 export default function ConfirmQuiting({ classId }: { classId: string }) {
   const [state, action, pending] = useActionState(
@@ -55,8 +56,22 @@ export default function ConfirmQuiting({ classId }: { classId: string }) {
             </Button>
           </DialogClose>
           <form action={action}>
-            <Button type="submit" className=" cursor-pointer">
-              Confirm
+            <Button
+              disabled={pending}
+              type="submit"
+              className=" cursor-pointer"
+            >
+              {pending ? (
+                <ClipLoader
+                  color="#ffffff"
+                  cssOverride={{}}
+                  loading
+                  size={20}
+                  speedMultiplier={2}
+                />
+              ) : (
+                <span>Confirm</span>
+              )}
             </Button>
           </form>
         </DialogFooter>
