@@ -1,10 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import React from "react";
-import CourseContainer from "@/components/class/created/cours/CourseContainer";
-import TdContainer from "@/components/class/created/td/TdContainer";
+import CourseContainer from "@/components/class/cours/CourseContainer";
+
 import { getCourses } from "@/utils/course";
 import { getTDs } from "@/utils/TD";
+import TdContainer from "@/components/class/td/TdContainer";
 
 export default async function page({
   params,
@@ -30,10 +31,10 @@ export default async function page({
           </TabsTrigger>
         </TabsList>
         <TabsContent value="Course">
-          <CourseContainer classType="joined" Courses={courses} />
+          <CourseContainer userRole="student" Courses={courses} />
         </TabsContent>
         <TabsContent value="Td">
-          <TdContainer classType="joined" tds={TDs} />
+          <TdContainer userRole="student" tds={TDs} />
         </TabsContent>
       </Tabs>
     </div>

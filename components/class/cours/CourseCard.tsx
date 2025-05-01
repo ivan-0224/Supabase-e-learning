@@ -9,7 +9,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CommentContainer from "../../CommentContainer";
+import CommentContainer from "../CommentContainer";
 import { Course, Doc } from "@/utils/types";
 import { formatDate } from "@/utils/date";
 import { getCourseDocuments } from "@/utils/docs";
@@ -20,9 +20,15 @@ import ConfirmDeleteCourse from "./ConfirmDeleteCourse";
 import { AddComment } from "@/actions/Courses/AddComment";
 import { Send } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-const Document = React.lazy(() => import("../../Document"));
+const Document = React.lazy(() => import("../Document"));
 
-export default function CourseCard({ course }: { course: Course }) {
+export default function CourseCard({
+  course,
+  userRole = "teacher",
+}: {
+  course: Course;
+  userRole?: string;
+}) {
   const date = new Date(course.created_at as string);
   const DATE = formatDate(date);
   const [docs, setDocs] = useState<Doc[]>([]);
@@ -100,7 +106,9 @@ export default function CourseCard({ course }: { course: Course }) {
           <Separator />
           <p className="font-semibold">comments:</p>
           <CommentContainer courseId={course.course_id as string} />
-          <ConfirmDeleteCourse courseId={course.course_id as string} />
+          {userRole === "teacher" && (
+            <ConfirmDeleteCourse courseId={course.course_id as string} />
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

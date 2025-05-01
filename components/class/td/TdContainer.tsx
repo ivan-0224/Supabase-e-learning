@@ -4,17 +4,19 @@ import CreateTdPrompt from "./CreateTdPrompt";
 import { Course } from "@/utils/types";
 
 export default function TdContainer({
-  classType = "created",
+  userRole = "teacher",
   tds,
 }: {
   tds: Course[] | null | undefined;
-  classType?: string;
+  userRole?: string;
 }) {
   return (
     <div className="p-4 flex items-center justify-center flex-col gap-5">
-      {classType === "created" && <CreateTdPrompt />}
+      {userRole === "created" && <CreateTdPrompt />}
       {tds?.length != 0 ? (
-        tds?.map((td) => <TdCard td={td} key={td.course_id} />)
+        tds?.map((td) => (
+          <TdCard userRole={userRole} td={td} key={td.course_id} />
+        ))
       ) : (
         <p className="text-gray-500 text-sm text-center pt-2.5">
           There is no td for now 🧐

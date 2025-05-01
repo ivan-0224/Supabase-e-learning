@@ -16,13 +16,21 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
 import ShowCode from "./class/ShowCode";
-import { Class } from "@/utils/types";
+import { Class, Teacher } from "@/utils/types";
 
 export function SidebarRight({
+  classType,
   CLass,
   User,
+  teacher,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { CLass: Class; User: User | null }) {
+}: React.ComponentProps<typeof Sidebar> & {
+  classType?: string;
+  CLass: Class;
+  User: User | null;
+  teacher?: Teacher;
+}) {
+  const ClassType = classType === "td" ? "joined" : "created";
   const USER = {
     name: User?.user_metadata.full_name as string,
     email: User?.email as string,
@@ -47,6 +55,15 @@ export function SidebarRight({
         <NavUser user={USER} />
         <DatePicker />
         <SidebarSeparator className="mx-0" />
+        {ClassType === "joined" && (
+          <div className="p-2 flex flex-col gap-1.5">
+            <p className=" capitalize font-semibold text-sm ">
+              👨‍🏫 : {teacher?.teacher_name}
+            </p>
+            <p className="text-sm ">📨 : {teacher?.teacher_mail}</p>
+          </div>
+        )}
+
         <div className="p-2 flex gap-1.5 items-center">
           <span className="font-semibold text-sm">ClassCode:</span>
           <ShowCode Code={CLass.class_id} />

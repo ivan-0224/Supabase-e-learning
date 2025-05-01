@@ -9,7 +9,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CommentContainer from "../../CommentContainer";
+
 import { Course, Doc } from "@/utils/types";
 import { formatDate } from "@/utils/date";
 import { getCourseDocuments } from "@/utils/docs";
@@ -18,10 +18,17 @@ import ConfirmDeleteTd from "./ConfirmDeleteTd";
 import { AddComment } from "@/actions/Courses/AddComment";
 import { Send } from "lucide-react";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import CommentContainer from "../CommentContainer";
 
-const Document = React.lazy(() => import("../../Document"));
+const Document = React.lazy(() => import("../Document"));
 
-export default function TdCard({ td }: { td: Course }) {
+export default function TdCard({
+  td,
+  userRole = "teacher",
+}: {
+  td: Course;
+  userRole?: string;
+}) {
   const date = new Date(td.created_at as string);
   const DATE = formatDate(date);
   const [docs, setDocs] = useState<Doc[]>([]);
@@ -99,7 +106,9 @@ export default function TdCard({ td }: { td: Course }) {
           <Separator />
           <p className="font-semibold">comments:</p>
           <CommentContainer courseId={td.course_id as string} />
-          <ConfirmDeleteTd tdId={td.course_id as string} />
+          {userRole === "teacher" && (
+            <ConfirmDeleteTd tdId={td.course_id as string} />
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

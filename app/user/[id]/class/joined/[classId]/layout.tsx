@@ -16,7 +16,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Class } from "@/utils/types";
+import { Class, Teacher } from "@/utils/types";
+import { getTeacherById } from "@/utils/teacher";
 
 export default async function Layout({
   children,
@@ -28,12 +29,14 @@ export default async function Layout({
   const { classId } = await params;
   const FindClass = await FindClassById(classId);
   const user = await GetUser();
-
+  let teacher: Teacher = {} as Teacher;
   let CLass: Class = {} as Class;
 
   if (FindClass) {
     //check the auth for the user as a teacher
     CLass = await getClassById(classId);
+    teacher = (await getTeacherById(CLass.teacher_id as string)) as Teacher;
+
     if (CLass.teacher_id == user?.id) {
       redirect("/");
     }
@@ -43,7 +46,7 @@ export default async function Layout({
 
   return (
     <SidebarProvider>
-      <SidebarLeft classType="td" CLass={CLass} User={user} />
+      <SidebarLeft teacher={teacher} classType="td" CLass={CLass} User={user} />
       <SidebarInset>
         <header className="sticky top-0 backdrop-blur-sm flex h-14 shrink-0 items-center gap-2 z-50 ">
           <div className="flex flex-1 items-center gap-2 px-3 ">
@@ -63,7 +66,12 @@ export default async function Layout({
         <div className="flex flex-1 flex-col gap-4 ">{children}</div>
       </SidebarInset>
 
-      <SidebarRight CLass={CLass} User={user} />
+      <SidebarRight
+        teacher={teacher}
+        classType="td"
+        CLass={CLass}
+        User={user}
+      />
     </SidebarProvider>
   );
 }

@@ -11,7 +11,6 @@ export const AddComment = async (state:any, formdata:FormData,CourseId:string)=>
     const comment = formdata.get("comment") as string
 
     const commentIsValid = CommentSchema.safeParse(comment)
-    console.log(comment)
     if(!commentIsValid){
         return {error:"Comment invalid"}
     }

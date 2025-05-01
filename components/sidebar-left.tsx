@@ -1,24 +1,11 @@
 "use client";
 import * as React from "react";
 import {
-  AudioWaveform,
-  Blocks,
-  Calendar,
-  Command,
-  File,
-  FileIcon,
-  Files,
   FileSearch,
   FileSearch2Icon,
-  FilesIcon,
   Home,
-  Inbox,
   LogOutIcon,
-  MessageCircleQuestion,
-  Search,
-  Settings2,
   Sparkles,
-  Trash2,
   Users,
   Video,
 } from "lucide-react";
@@ -42,21 +29,25 @@ import { NavUser } from "./nav-user";
 
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { Class } from "@/utils/types";
+import { Class, Teacher } from "@/utils/types";
 import { formatDate } from "@/utils/date";
+
+import { Separator } from "./ui/separator";
+import ShowCode from "./class/ShowCode";
 
 export function SidebarLeft({
   classType,
   CLass,
   User,
+  teacher,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   classType?: string;
   CLass: Class;
   User: User | null;
+  teacher?: Teacher;
 }) {
   const ClassType = classType === "td" ? "joined" : "created";
-
   const USER = {
     name: User?.user_metadata.full_name as string,
     email: User?.email as string,
@@ -253,8 +244,32 @@ export function SidebarLeft({
         <NavGroups groups={data.groups} />
       </SidebarContent>
       <SidebarRail />
+      <Separator />
       <SidebarFooter className="lg:hidden">
-        <div className="sm:hidden w-full text-center text-gray-500">{DATE}</div>
+        <div className="sm:hidden w-full text-sm space-y-2">
+          {ClassType === "joined" && (
+            <>
+              {" "}
+              <p className="font-semibold">👨‍🏫 Teacher Name:</p>
+              <p className=" capitalize select-all px-2">
+                {teacher?.teacher_name}
+              </p>
+              <Separator />
+              <p className="font-semibold">📨 Teacher Mail:</p>
+              <p className="text-nowrap select-all px-2">
+                {teacher?.teacher_mail}
+              </p>
+              <Separator />
+            </>
+          )}
+          <div className=" flex gap-1.5 items-center">
+            <span className="font-semibold text-sm">ClassCode:</span>
+            <ShowCode Code={CLass.class_id} />
+          </div>
+          <Separator />
+          <p className="text-gray-500 text-center">{DATE}</p>
+        </div>
+        <Separator />
 
         <NavUser user={USER} />
         <Button asChild className="text-start">

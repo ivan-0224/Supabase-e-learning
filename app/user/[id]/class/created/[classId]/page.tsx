@@ -1,10 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import React from "react";
-import CourseContainer from "@/components/class/created/cours/CourseContainer";
-import TdContainer from "@/components/class/created/td/TdContainer";
+import CourseContainer from "@/components/class/cours/CourseContainer";
 import { getCourses } from "@/utils/course";
 import { getTDs } from "@/utils/TD";
+import TdContainer from "@/components/class/td/TdContainer";
 
 export default async function page({
   params,
