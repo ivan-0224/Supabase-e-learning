@@ -1,5 +1,6 @@
 "use server"
 
+import { User } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server"
 import { Group, StudentGroup } from "./types";
 
@@ -51,4 +52,22 @@ export const CreateStudentGroup = async (studentId: string, groupId:string)=>{
         return error
     }
     return null
+}
+
+//Delete a student from his group at specific class
+export const deleteStudentFromGrp = async (classId:string, user:User)=>{
+    const supabase = await createClient();
+     // student_groups  is a view created in the postgress sql editeur 
+     const {data, error} = await supabase.from("student_groups").select("*").eq("student_id", user?.id).eq("class_id", classId)
+
+     if(error){
+        throw error
+     }
+
+     if(data?.length != 0){
+         data?.map(async (studentGroup)=>(
+             await supabase.from("StudentGroup").delete().eq("studentg_id", studentGroup.studentg_id)
+         ))
+     }
+
 }
