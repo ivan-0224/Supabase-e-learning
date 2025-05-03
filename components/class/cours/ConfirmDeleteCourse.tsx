@@ -43,7 +43,7 @@ export default function ConfirmDeleteCourse({
 
   return (
     <Dialog>
-      <DialogTrigger className="w-full bg-white outline  text-black p-2 rounded-md text-sm font-semibold cursor-pointer hover:bg-red-400/90 dark:text-white dark:bg-red-400 hover:outline-none hover:text-white transition-all">
+      <DialogTrigger className=" float-right mt-2 bg-white outline  text-black p-2 rounded-md text-sm  cursor-pointer hover:bg-red-400/90 dark:text-white dark:bg-red-400 hover:outline-none hover:text-white transition-all">
         Delete Course
       </DialogTrigger>
       <DialogContent>

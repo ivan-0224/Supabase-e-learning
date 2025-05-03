@@ -40,7 +40,7 @@ export function SidebarRight({
   return (
     <Sidebar
       collapsible="none"
-      className=" hidden lg:flex h-screen  sticky top-0  z-200  border-l"
+      className=" hidden lg:flex h-screen  sticky top-0    border-l"
       {...props}
     >
       <SidebarHeader className="border-sidebar-border h-16 border-b">

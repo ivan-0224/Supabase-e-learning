@@ -19,6 +19,7 @@ import { AddComment } from "@/actions/Courses/AddComment";
 import { Send } from "lucide-react";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import CommentContainer from "../CommentContainer";
+import SubmissionForm from "../joined/SubmissionForm";
 
 const Document = React.lazy(() => import("../Document"));
 
@@ -106,11 +107,13 @@ export default function TdCard({
           <Separator />
           <p className="font-semibold">comments:</p>
           <CommentContainer courseId={td.course_id as string} />
-          {userRole === "teacher" && (
-            <ConfirmDeleteTd tdId={td.course_id as string} />
-          )}
-        </AccordionContent>
+        </AccordionContent>{" "}
       </AccordionItem>
+      {userRole === "teacher" ? (
+        <ConfirmDeleteTd tdId={td.course_id as string} />
+      ) : (
+        <SubmissionForm />
+      )}
     </Accordion>
   );
 }

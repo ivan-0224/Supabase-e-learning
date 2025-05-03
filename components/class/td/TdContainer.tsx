@@ -12,7 +12,7 @@ export default function TdContainer({
 }) {
   return (
     <div className="p-4 flex items-center justify-center flex-col gap-5">
-      {userRole === "created" && <CreateTdPrompt />}
+      {userRole === "teacher" && <CreateTdPrompt />}
       {tds?.length != 0 ? (
         tds?.map((td) => (
           <TdCard userRole={userRole} td={td} key={td.course_id} />

@@ -106,11 +106,11 @@ export default function CourseCard({
           <Separator />
           <p className="font-semibold">comments:</p>
           <CommentContainer courseId={course.course_id as string} />
-          {userRole === "teacher" && (
-            <ConfirmDeleteCourse courseId={course.course_id as string} />
-          )}
         </AccordionContent>
-      </AccordionItem>
+      </AccordionItem>{" "}
+      {userRole === "teacher" && (
+        <ConfirmDeleteCourse courseId={course.course_id as string} />
+      )}
     </Accordion>
   );
 }
