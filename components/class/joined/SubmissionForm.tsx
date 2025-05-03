@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -11,13 +10,14 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+
 import { FileUploader } from "../FileUploader";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { SelectStudents } from "./SelectStudents";
 import { ArrowDownToLine } from "lucide-react";
 import { Student } from "@/utils/types";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function SubmissionForm() {
   //GET STUDENTS
@@ -63,37 +63,35 @@ export default function SubmissionForm() {
           <DrawerDescription>Please Fill those filds ✏️</DrawerDescription>
           <Separator />
         </DrawerHeader>
-        <ScrollArea className="h-[40svh]">
-          <form className="">
-            <div className="flex flex-col gap-2 ">
-              <Label className="text-lg">📚 Document :</Label>
-              <FileUploader />
-            </div>
-            <Separator />
+        <form className="h-[40svh] overflow-y-scroll">
+          <div className="flex flex-col gap-2 ">
+            <Label className="text-lg">📚 Document :</Label>
+            <FileUploader />
+          </div>
+          <Separator />
 
-            <div className="flex flex-col gap-2">
-              <Label className="text-lg">
-                Description:
-                <span className="text-sm text-gray-600 animate-pulse">
-                  (optional)
-                </span>
-              </Label>
-              <Input placeholder="exp: this course or assignment  is for the Group A04 " />
-            </div>
-            <Separator />
+          <div className="flex flex-col gap-2">
+            <Label className="text-lg">
+              Description:
+              <span className="text-sm text-gray-600 animate-pulse">
+                (optional)
+              </span>
+            </Label>
+            <Textarea placeholder="Add A description for your submission if u want" />
+          </div>
+          <Separator />
 
-            <div className="flex flex-col gap-2 w-full">
-              <Label className="text-xl ">
-                Add Persons that worked with you in this project:
-                <span className="text-sm text-gray-600 animate-pulse">
-                  (optional)
-                </span>
-              </Label>
-              <SelectStudents people={people as Student[]} />
-            </div>
-            <Separator />
-          </form>
-        </ScrollArea>
+          <div className="flex flex-col gap-2 w-full">
+            <Label className="text-xl ">
+              Add Persons that worked with you in this project:
+              <span className="text-sm text-gray-600 animate-pulse">
+                (optional)
+              </span>
+            </Label>
+            <SelectStudents people={people as Student[]} />
+          </div>
+          <Separator />
+        </form>
         <DrawerFooter className="border-t-black/40 border-t-[1px]">
           <Button className="">Submit</Button>
         </DrawerFooter>
