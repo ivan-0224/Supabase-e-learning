@@ -50,7 +50,7 @@ export function SelectStudents({ people }: { people: Student[] }) {
               key={person.student_id}
               className="flex gap-2 border p-2 text-sm rounded-md items-center"
             >
-              <AvatarIcon img="" />
+              <AvatarIcon img={person.studentImg as string} />
               <span className="text-nowrap font-normal">
                 {person.student_name}
               </span>

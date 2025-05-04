@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerContent,
@@ -18,36 +19,20 @@ import { ArrowDownToLine } from "lucide-react";
 import { Student } from "@/utils/types";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { GetStudents } from "@/utils/student";
 
-export default function SubmissionForm() {
+export default function SubmissionForm({ tdId }: { tdId: string }) {
+  const [students, setStudents] = useState<Student[]>([]);
+
   //GET STUDENTS
-  const people: Student[] = [
-    {
-      student_id: "1",
-      student_name: "John Doe",
-      student_mail: "john@example.com",
-    },
-    {
-      student_id: "2",
-      student_name: "Jane Smith",
-      student_mail: "jane@example.com",
-    },
-    {
-      student_id: "3",
-      student_name: "Bob Johnson",
-      student_mail: "bob@example.com",
-    },
-    {
-      student_id: "4",
-      student_name: "Alice Brown",
-      student_mail: "alice@example.com",
-    },
-    {
-      student_id: "5",
-      student_name: "Charlie Davis",
-      student_mail: "charlie@example.com",
-    },
-  ];
+  useEffect(() => {
+    const getStds = async () => {
+      const Students = await GetStudents(tdId);
+
+      setStudents(Students as Student[]);
+    };
+    getStds();
+  }, []);
 
   return (
     <Drawer>
@@ -57,7 +42,6 @@ export default function SubmissionForm() {
       </DrawerTrigger>
 
       <DrawerContent className="p-5">
-        {" "}
         <DrawerHeader>
           <DrawerTitle>Work submition🎖️</DrawerTitle>
           <DrawerDescription>Please Fill those filds ✏️</DrawerDescription>
@@ -88,7 +72,11 @@ export default function SubmissionForm() {
                 (optional)
               </span>
             </Label>
-            <SelectStudents people={people as Student[]} />
+            {students.length === 0 ? (
+              "loAFIND"
+            ) : (
+              <SelectStudents people={students} />
+            )}
           </div>
           <Separator />
         </form>

@@ -112,7 +112,7 @@ export default function TdCard({
       {userRole === "teacher" ? (
         <ConfirmDeleteTd tdId={td.course_id as string} />
       ) : (
-        <SubmissionForm />
+        <SubmissionForm tdId={td.class_id as string} />
       )}
     </Accordion>
   );
