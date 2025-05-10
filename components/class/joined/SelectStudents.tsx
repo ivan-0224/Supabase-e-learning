@@ -15,8 +15,15 @@ import { Button } from "@/components/ui/button";
 import { Student } from "@/utils/types";
 import { AvatarIcon } from "@/components/AvatarIcon";
 import { GetUser } from "@/utils/getuser";
+import { User } from "@supabase/supabase-js";
 
-export function SelectStudents({ people }: { people: Student[] }) {
+export function SelectStudents({
+  people,
+  user,
+}: {
+  people: Student[];
+  user: User;
+}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeople, setSelectedPeople] = useState<Student[]>([]);
 
@@ -34,15 +41,6 @@ export function SelectStudents({ people }: { people: Student[] }) {
     );
   };
 
-  // GET USER
-  useEffect(()=>{
-    const getuser = ()=>{
-      const user = GetUser();
-
-    }
-    
-  })
-
   return (
     <div className="space-y-4">
       <Input
@@ -55,26 +53,23 @@ export function SelectStudents({ people }: { people: Student[] }) {
       <div className="w-full">
         <h2 className="text-lg font-semibold mb-2">Selected Students</h2>
         <ul className="flex gap-2 flex-wrap w-full">
-          {selectedPeople.map(
-            (person) =>
-              user. != person.student_id && (
-                <li
-                  key={person.student_id}
-                  className="flex gap-2 border p-2 text-sm rounded-md items-center"
-                >
-                  <AvatarIcon img={person.studentImg as string} />
-                  <span className="text-nowrap font-normal">
-                    {person.student_name}
-                  </span>
-                  <Button
-                    onClick={() => handleSelect(person)}
-                    className=" cursor-pointer"
-                  >
-                    Remove
-                  </Button>
-                </li>
-              )
-          )}
+          {selectedPeople.map((person) => (
+            <li
+              key={person.student_id}
+              className="flex gap-2 border p-2 text-sm rounded-md items-center"
+            >
+              <AvatarIcon img={person.studentImg as string} />
+              <span className="text-nowrap font-normal">
+                {person.student_name}
+              </span>
+              <Button
+                onClick={() => handleSelect(person)}
+                className=" cursor-pointer"
+              >
+                Remove
+              </Button>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -91,24 +86,27 @@ export function SelectStudents({ people }: { people: Student[] }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredPeople.map((person) => (
-                <TableRow key={person.student_id}>
-                  <TableCell>
-                    <Checkbox
-                      checked={selectedPeople.some(
-                        (p) => p.student_id === person.student_id
-                      )}
-                      onCheckedChange={() => handleSelect(person)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <AvatarIcon img="" />
-                  </TableCell>
-                  <TableCell>{person.student_name}</TableCell>
-                  <TableCell>{person.student_mail}</TableCell>
-                  <TableCell>04</TableCell>
-                </TableRow>
-              ))}
+              {filteredPeople.map(
+                (person) =>
+                  user.id != person.student_id && (
+                    <TableRow key={person.student_id}>
+                      <TableCell>
+                        <Checkbox
+                          checked={selectedPeople.some(
+                            (p) => p.student_id === person.student_id
+                          )}
+                          onCheckedChange={() => handleSelect(person)}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <AvatarIcon img="" />
+                      </TableCell>
+                      <TableCell>{person.student_name}</TableCell>
+                      <TableCell>{person.student_mail}</TableCell>
+                      <TableCell>04</TableCell>
+                    </TableRow>
+                  )
+              )}
             </TableBody>
           </Table>
         </div>

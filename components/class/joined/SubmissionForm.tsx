@@ -20,10 +20,12 @@ import { Student } from "@/utils/types";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { GetStudents } from "@/utils/student";
+import { GetUser } from "@/utils/getuser";
+import { User } from "@supabase/supabase-js";
 
 export default function SubmissionForm({ tdId }: { tdId: string }) {
   const [students, setStudents] = useState<Student[]>([]);
-
+  const [user, setUser] = useState<User>();
   //GET STUDENTS
   useEffect(() => {
     const getStds = async () => {
@@ -31,7 +33,14 @@ export default function SubmissionForm({ tdId }: { tdId: string }) {
 
       setStudents(Students as Student[]);
     };
+    const getuser = async () => {
+      const USER = await GetUser();
+      if (USER) {
+        setUser(USER);
+      }
+    };
     getStds();
+    getuser();
   }, []);
 
   return (
@@ -75,7 +84,7 @@ export default function SubmissionForm({ tdId }: { tdId: string }) {
             {students.length === 0 ? (
               "loAFIND"
             ) : (
-              <SelectStudents people={students} />
+              <SelectStudents people={students} user={user as User} />
             )}
           </div>
           <Separator />
