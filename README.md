@@ -1,4 +1,3 @@
-# 🎓 FSEGT Classroom [https://fsegtclassroomv2-1.vercel.app/]
 
 Welcome to **FSEGT Classroom** – a modern 💻 e-Learning platform built to empower students and educators with seamless course management and interactive learning tools.
 
@@ -26,7 +25,7 @@ Welcome to **FSEGT Classroom** – a modern 💻 e-Learning platform built to em
 ### 🏗️ Installation
 
 ```bash
-git clone https://github.com/samaalibassem123/fsegtclassroomv2.1.git
+git clone https://github.com/ivan-0224/fsegtclassroomv2.1.git
 cd fsegtclassroomv2.1
 npm install    # or yarn install
 npm run dev    # or yarn dev
